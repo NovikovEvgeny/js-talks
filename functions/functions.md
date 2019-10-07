@@ -324,10 +324,139 @@ b = 5; //TypeError: Assignment to constant variable.
 
 ## Замыкания
 
+Еще одна вещь, которая относится к области видимости и функциям
+
+Способность функции сохранять доступ к той области видимости, где функция была *объявлена*, даже если она *вызвана* из другой области видимости
+
+```javascript
+
+function iHaveASecret() {
+    const secret = 'very secret phrase';
+  
+    return function tellSecret() {
+      console.log(`hey, do not tell anyone, but the secret is : ${secret}`);
+    }
+  }
+  
+  const blah = iHaveASecret();
+  blah();
+
+  console.log(new iHaveASecret().secret); // unefined
+  console.log(iHaveASecret.secret); //
+  console.log(iHaveASecret.prototype.secret);
+  console.log(new iHaveASecret().prototype.secret);
+```
+
+```javascript
+function calculator(a) {
+  let res = 0;
+
+  function sum(c) {
+    res += c;
+    console.log(res);
+    return sum;
+  }
+
+  return sum(a);
+}
+
+
+let value = calculator(3);
+value(6)(7);
+
+console.log(value(8))
+
+```
+
+Как вытащить значение из такого? Никак, оно же замкнуто
+Поэтому надо пробросить обратно
+```javascript
+function calculator(a) {
+  let res = 0;
+
+  function calc(c) {
+    res += c;
+    return {
+      getResult: () => res,
+      add: calc,
+    };
+  }
+
+  return calc(a);
+}
+
+
+let value = calculator(3);
+value.add(6).add(7);
+
+console.log(value.add(8).getResult())
+```
+
 ## Способы вызова
+
+```javascript
+
+function hello(name) {
+  console.log(`hello ${name || 'world'}!`);
+}
+
+hello('space');
+hello.apply(null, ['space']); // Apply -> Array
+hello.call(null, 'space'); 
+```
+
+IIFE
+```javascript
+(function(input) {
+  console.log('Your input is ' + input);
+})(5);
+```
+
+Зачем?
+
+* изоляция переменных
+
+```javascript
+(function() {
+  var somePopularVariablename = 10;
+  console.log(somePopularVariablename);
+})();
+```
+
+* async - вызовы (не для прода!)
+
+```javascript
+async function sleep(ms) {
+  return new Promise(res => {
+    setTimeout(res, ms);
+  });
+}
+
+(async function() {
+  await sleep(2000);
+  console.log('woke up!');
+})();
+```
 
 ## Callbacks
 
-## ES6 Arrow functions
+Коллбек - функция, которая "выполнится потом"
+Основа всех асинхронных (неблокирующих) операций
+
+Тут и так все понятно
+```javascript
+const fs = require('fs');
+
+fs.readdir('./', (err, files) => {
+  if (err) {
+    throw err;
+  }
+  console.log(files);
+});
+
+console.log('I declared callback before this line, but it will be executed after!');
+```
 
 ## This and objects
+
+## ES6 Arrow functions
