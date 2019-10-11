@@ -286,6 +286,8 @@ test(); // что выведет?
 
 ES6. Let и const - основные отличия
 
+# TODO: add an example with for loops
+
 * блочная область видимости
 ```javascript
 
@@ -460,3 +462,4 @@ console.log('I declared callback before this line, but it will be executed after
 ## This and objects
 
 ## ES6 Arrow functions
+
