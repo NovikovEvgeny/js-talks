@@ -7,7 +7,7 @@ function print() {
 
 function outerFunction() {
   var str = 'Hello world!';
-  var str2 = 'Hello world from outer';
+  let str2 = 'Hello world from outer';
 
   function print() {
     var str = 'Hello world from print!';
