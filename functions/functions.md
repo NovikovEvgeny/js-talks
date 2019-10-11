@@ -286,6 +286,8 @@ test(); // что выведет?
 
 ES6. Let и const - основные отличия
 
+# TODO: add an example with for loops
+
 * блочная область видимости
 ```javascript
 
@@ -321,6 +323,43 @@ test();
 const b = 10;
 b = 5; //TypeError: Assignment to constant variable.
 ```
+
+Реально полезный случай
+
+```javascript
+for (var i = 0; i < 10; i++) {
+  setTimeout(function() {
+      console.log("callback #", i, "is fired");
+  }, i * 1000);
+}
+
+// 10 раз выведет "callback # 10 is fired"
+for (var i = 0; i < 10; i++) {
+  const f = function(j) {
+      setTimeout(function() {
+        console.log("callback #", j, "is fired");
+    }, i * 1000);
+  }
+  f(i);
+}
+
+
+for (var i = 0; i < 10; i++) {
+  (function(j) {
+      setTimeout(function() {
+        console.log("callback #", j, "is fired");
+    }, i * 1000);
+  })(i);
+}
+
+for (let i = 0; i < 10; i++) {
+  setTimeout(function() {
+      console.log("callback #", i, "is fired");
+  }, i * 1000);
+}
+
+```
+
 
 ## Замыкания
 
@@ -392,7 +431,7 @@ value.add(6).add(7);
 console.log(value.add(8).getResult())
 ```
 
-## Способы вызова
+## Способы вызова функций
 
 ```javascript
 
@@ -459,4 +498,38 @@ console.log('I declared callback before this line, but it will be executed after
 
 ## This and objects
 
+This - магия ЖСа
+Не такой this как в Джаве или еще где
+
+Зависит от способа запуска функции
+
+```javascript
+function someFunction(a) {
+  return this.a + a;
+}
+
+
+console.log(someFunction(5)); // NaN
+console.log(someFunction.call({a: 5}, 6)); // 11
+console.log(someFunction.apply({a: 6}, [7])); // 13
+console.log(someFunction.bind({a: 7}, 8)()); // 15
+
+const someObj = {
+  a: 8,
+  funcInTheObject: someFunction,
+}
+
+console.log(someObj.funcInTheObject(9)) // 17
+
+console.log(someFunctionWithGlobal()); // undefined since someGlobalVar is not defined
+function someFunctionWithGlobal() {
+  return this.someGlobalVar;
+}
+
+global.someGlobalVar = 10;
+
+console.log(someFunctionWithGlobal()); // 10 or "Type error" in "use string" mode
+```
+
 ## ES6 Arrow functions
+

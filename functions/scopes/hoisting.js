@@ -31,15 +31,34 @@ topLevel();
 console.log('-----');
 
 // some arg in global scope
-var foo = 5;
+// var foo = 5;
 
 function test() {
-  if (foo) {
+  let foo = 5;
+  if (true) {
+    let foo = 123;
     console.log('foo exists and equals to ' + foo);
   } else {
-    var foo = 666;
+    let foo = 666;
     console.log('foo did not exist but now it equals to ' + foo);
   }
+
+  console.log(foo)
 }
 
 test(); // что выведет?
+
+
+
+/// --
+
+function test2() {
+  console.log('hi');
+}
+
+test2();
+
+
+
+
+
