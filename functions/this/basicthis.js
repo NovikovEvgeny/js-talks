@@ -1,7 +1,6 @@
 // "use strict";
 
 
-
 function someFunction(a) {
   return this.a + a;
 }
