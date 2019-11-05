@@ -39,24 +39,50 @@ const varialbeFunctionNamed = function named() {
 вызов функции вида "function expression" возможен только после присваивания переменной
 
 ```javascript
+
+console.log(printHelloDeclaration); // [Function: printHelloDeclaration]
+
+printHelloDeclaration(); // Hello world
+
+function printHelloDeclaration() {
+  console.log('Hello world');
+}
+
+
+
 console.log(printHelloExpression); // undefined
+
 printHelloExpression('world'); // ReferenceError: printHelloExpression is not a function
+
 var printHelloExpression = function() {
   console.log('Hello, ' + name);
 };
 
+
 // at the same time:
 console.log(printHelloExpressionConst); // ReferenceError: printHelloExpressionConst is not defined
+
 printHelloExpressionConst('world'); // ReferenceError: printHelloExpressionConst is not defined
+
 someFuncName('world'); // ReferenceError: someFuncName is not defined
+
 const printHelloExpressionConst = function someFuncName(name) {
   console.log('Hello, ' + name);
   console.trace();
 };
+
 printHelloExpressionConst('world');
 // Trace
 //     at someFuncName (~\functions\index.js:34:11)
 
+```
+
+### Arrow functions
+```javascript
+
+const functionArrow = () => {
+  console.log('hi');
+}
 ```
 
 ### Methods
@@ -64,6 +90,9 @@ printHelloExpressionConst('world');
 ```javascript
 const someObject = {
   printHello: function() {
+    console.log('hello!');
+  },
+  printHelloArrow: () => {
     console.log('hello!');
   }
 };
@@ -103,7 +132,7 @@ globalA = 20;
 ## Области видимости
 
 Области видимости делятся на два типа - глобальная и локальная
-Глобальная область видимости - высший слой, где хранятся переменные, доступные отовсюду
+Глобальная область (`global` в node.js и `window` в браузере) видимости - высший слой, где хранятся переменные, доступные отовсюду
 
 ```javascript
 
@@ -128,8 +157,8 @@ require('./fileC').printGlobalVar(); // 42
 ```
 
 Локальная область видимости - в пределах функции
-Пример ниже конечно еще и отличный пример замыкания, но в данный момент необхоимо просто отметить,
-что извне функции printHelloWorld нет доступа ни к str, ни к функции print, т.к. они объявлены внутри своего скоупа
+
+Извне функции `printHelloWorld` нет доступа ни к `str`, ни к функции `print`, т.к. они объявлены внутри своего скоупа
 ```javascript
 
 function printHelloWorld() {
@@ -183,7 +212,7 @@ outerFunction(); // 'Hello world from print!', 'Hello world from outer', 'Hello 
 var hello = 'global';
 
 function test() {
-  var test = 'test';
+  var hello = 'test';
   console.log(hello); // test
   console.log(global.hello); //undefined
   console.log(this.hello); //unedfined
@@ -192,9 +221,9 @@ function test() {
 test(); // test
 ```
 
-Хоистинг (поднятие, всплытие и еще много разных странных существительных)
+#### Хоистинг (поднятие, всплытие и еще много разных странных существительных)
 
-Функции, объявленные через function declaration, и переменные, объявленные через var, "объявляются" в начале выполнения скрипта
+Функции, объявленные через `function declaration`, и переменные, объявленные через `var`, "объявляются" в начале выполнения скрипта или функции
 Это можно представить так, будто объявления функций и переменных (но не присваивание переменных!!!) "поднимаются" в топ области видимости
 
 ***Note:*** Для всех примеров хоистинга переменных будем использовать `var`, о `let` и `const` поговрим позже
@@ -213,16 +242,16 @@ function topLevel() {
   console.log(sayHelloVar); // undefined
 
   var sayHelloVar = function() {
-    console.log('Hello from variable sayHello');
+    console.log('Hello from variable sayHelloVar');
   }
 
-  sayHelloVar();
+  sayHelloVar(); // Hello from variable sayHelloVar
 
-  console.log(b);
+  console.log(b); // undefined
 
   var b = 5;
 
-  console.log()
+  console.log(b); // 5
 }
 
 topLevel();
@@ -235,7 +264,7 @@ function topLevel() {
   function sayHello() {
     console.log('Hello from sayHello');
   }
-  var sayHelloVar = undefined;
+  var sayHelloVar = undefined; // or var sayHelloVar;
   var b = undefined;
 
   console.log('hello world');
@@ -282,11 +311,34 @@ function test() {
 test(); // что выведет?
 ```
 
-Вывод - let и const наши друзья, var наш враг\
+Блоки for, while - не функции, т.е.
+```javascript
 
-ES6. Let и const - основные отличия
+var i = 42;
+for (var i = 0; i < 10; i++) {
+  console.log(i);
+}
 
-# TODO: add an example with for loops
+console.log(i); // 10
+
+
+var j = 42;
+do {
+  var j = 10;
+  console.log(j);
+
+} while (false);
+console.log(j); // 10
+```
+
+
+Вывод - let и const наши друзья, var наш враг. Ну или как минимум противный поц с которым не хочется иметь дело.
+
+
+С `function declaration` не все так просто
+Много статей говорят о том, что он ведет себя как `var`, однако Node.js 8 и Хром 72 определяют функции как block scoped. При
+
+## ES6. Let и const - основные отличия
 
 * блочная область видимости
 ```javascript
@@ -309,13 +361,28 @@ console.log(i);// 8957
 
 ```
 
-* Не "всплывают"
+* Процесс "всплытия" другой - т.н. TDZ (Temporal dead zone)
 ```javascript
+let ho = 10;
 function test() {
-    console.log(b); // ReferenceError: b is not defined
-    let b = 10;
+  console.log(ho); // ReferenceError: Cannot access 'ho' before initialization
+  let ho = 10;
 }
 test();
+```
+
+
+```javascript
+function foo() {
+  let a = "outer";
+
+  for (let x = 0; x < 3; ++x) {
+    console.log(a);            // ReferenceError: a is not defined
+    let a = 27;
+  }
+
+}
+foo();
 ```
 
 * const - неизменяемая
@@ -332,8 +399,9 @@ for (var i = 0; i < 10; i++) {
       console.log("callback #", i, "is fired");
   }, i * 1000);
 }
-
 // 10 раз выведет "callback # 10 is fired"
+
+
 for (var i = 0; i < 10; i++) {
   const f = function(j) {
       setTimeout(function() {
@@ -442,6 +510,8 @@ function hello(name) {
 hello('space');
 hello.apply(null, ['space']); // Apply -> Array
 hello.call(null, 'space'); 
+hello.bind(null, 'space')();
+hello.bind(null, 'space').call(null, 'nothing'); // ?
 ```
 
 IIFE
@@ -498,10 +568,15 @@ console.log('I declared callback before this line, but it will be executed after
 
 ## This and objects
 
-This - магия ЖСа
-Не такой this как в Джаве или еще где
+> JavaScript makes me want to flip the table and
+> say “Fuck this shit”, but 
+> I can never be sure what “this” refers to.
 
-Зависит от способа запуска функции
+(c) @oscherler
+
+Ключевое слово this - ссылка на объект, определяемая
+в рантайме при каждом вызове функции и объект, на который ссылается
+`this` зависит от способо вызова функции
 
 ```javascript
 function someFunction(a) {
@@ -517,9 +592,9 @@ console.log(someFunction.bind({a: 7}, 8)()); // 15
 const someObj = {
   a: 8,
   funcInTheObject: someFunction,
-}
+};
 
-console.log(someObj.funcInTheObject(9)) // 17
+console.log(someObj.funcInTheObject(9)); // 17
 
 console.log(someFunctionWithGlobal()); // undefined since someGlobalVar is not defined
 function someFunctionWithGlobal() {
@@ -530,6 +605,21 @@ global.someGlobalVar = 10;
 
 console.log(someFunctionWithGlobal()); // 10 or "Type error" in "use string" mode
 ```
+
+В не-стрикт режиме забиндить `this` на `null` или `undefined` не выйдет
+```javascript
+function someFunc() {
+  console.log(this);
+  console.log(this.a);
+}
+
+someFunc.call(null); // [Object global]  // undefined
+someFunc.call(undefined); // [Object global]  // undefined
+
+```
+
+В strict - `this` будет `undefined` вместо `global`,
+ или `null` при явном указывании.
 
 ## ES6 Arrow functions
 

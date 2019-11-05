@@ -18,9 +18,10 @@ console.log(i);// 8957
 
 console.log('---');
 
+let ho = 10;
 function test() {
-  // console.log(b); // ReferenceError: b is not defined
-  let b = 10;
+  console.log(ho); // ReferenceError: Cannot access 'ho' before initialization
+  let ho = 10;
 }
 test();
 
