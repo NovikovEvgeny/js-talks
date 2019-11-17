@@ -1,0 +1,1 @@
+Gelle world from dirfile1.txt

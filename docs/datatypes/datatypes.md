@@ -1,5 +1,6 @@
-# Типы данных
+# JS - Типы данных
 
+## Основы
 Всего - 7 типов данных
 
 ( ---примитивы--- )
@@ -8,22 +9,25 @@
 * boolean
 * null
 * undefined
+
 ( --- "составной" ---)
 * object
 * Symbol (ES6)
 
-Стоит упомянуть `BigInt`  - до сих пор не в спецификации ECMAScript, но уже в Stage 3 (предпоследняя) и поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0
+> Стоит упомянуть `BigInt`([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/BigInt))  - до сих пор не в спецификации ECMAScript, но уже в Stage 3 (предпоследняя) и поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0
+
 
 Тип переменной можно определить с помощью оператора typeof
 
 ```javascript
+typeof 148 === "number"
+typeof "148" === "string"
+typeof true === "boolean"
 typeof undefined === "undefined"
-typeof 148 ==== "number"
-typeof "148" ==== "string"
 typeof { hello: "world" } === "object"
 
 // BUT
-typeof null === "object"  // lol, because it's JS
+typeof null === "object" // lol, because it's JS
 
 // Build-in "Natives"
 typeof [1, 2, 3] === "object"
@@ -39,20 +43,57 @@ typeof function() {console.log('hi!')} === "function" // lol, why not
 ```javascript
 
 console.log(typeof undefinedVal); // undefined
-console.log(undefinedVal); // ReferenceErrir: undefinedVal is not defined
+console.log(undefinedVal); // ReferenceError: undefinedVal is not defined
 ```
 
+Любимое число - `NaN` - Not a Number
+
+```javascript
+var b = parseInt('sdf');
+console.log(b); // NaN
+console.log(typeof b); // number
+```
+
+Так что это скорее не "не число", а "значение, при приведении которого к number возникла ошибка"
+
+Чуть менее любимое число - `Infinity` и `-Infinity`
+
+```javascript
+var c = Number.MAX_VALUE;
+c += c;
+console.log(c); // Infinity
+console.log(c / Infinity); // 0
+```
+
+Зато никакого overflow
+
+Да еще и один полезный юзкейс - при поиске максимума/минимума
+
+```javascript
+
+var arr = [5, 15, 23, 0, -1];
+
+let max = -Infinity;
+
+for (let i = 0; i < arr.length; i++) {
+  if (arr[i] > max) {
+    max = arr[i];
+  }
+}
+console.log(max);
+```
 
 ## Object
 
 > An Object is logically a collection of properties.
 
-Включая функции, и все нейтивы String, Number, Boolean, Date, RegExp, Error
+Включая функции, и все built-in нейтивы String, Number, Boolean, Date, RegExp, Error etc
 
 ### Boxing
 
 ```javascript
 typeof 'str' // "string" primitive string! not an object!
+typeof new String('str'); // "object" !
 'str'.toUpperCase(); // "STR". // Automatically boxed to String and `toUpperCase()` method called
 new String('str').toUpperCase() // "STR"
 
@@ -62,7 +103,7 @@ new Number(55);
 new Number("55");
 
 // no need to use explicit boxing usually, it can even hurt you
-const someBool = new Boolean(false);
+var someBool = new Boolean(false);
 if (someBool) {
     console.log("someBool is true"); // gotcha. someBool is an object and object is always truthy
 } else {
@@ -76,8 +117,8 @@ if (someBool) {
 В то же время есть смысл использовать конструкторы Нейтивов для `Error` и `Date`, т.к. по-другому вы не создадите такой объект: 
 ```javascript
 // Makes sense to use Native cuonstructors for Error and Date:
-const err = new Error('error message');
-const date = (new Date()).getTime();
+var err = new Error('error message');
+var date = (new Date()).getTime();
 ```
 
 
@@ -90,26 +131,26 @@ const date = (new Date()).getTime();
 
 Очевидно явный каст:
 ```javascript
-const someNum = 42;
+var someNum = 42;
 // cast
-const someStr = String(someNum);
+var someStr = String(someNum);
 // create instance of String "class" and coercion
-const someStrObj = new String(someNum);
+var someStrObj = new String(someNum);
 
 typeof someStr; // string
 typeof someStrObj; // object
 
-const someNumCaster = Number(someStr);
-const someNumParsed = parseInt(someStr);
+var someNumCaster = Number(someStr);
+var someNumParsed = parseInt(someStr);
 ```
 
 Чуть менее явный:
 ```javascript
-const foo = 42;
-const fooAsStr = foo + ""; // second arg is string -> fooAsStr 100% string
-const fooAlsoAsStr = fooAsStr.toString(); // also kinda obvious
+var foo = 42;
+var fooAsStr = foo + ""; // second arg is string -> fooAsStr 100% string
+var fooAlsoAsStr = fooAsStr.toString(); // also kinda obvious
 
-const barAsNum = +fooAsStr; // unary operator "+" means "cast to number"
+var barAsNum = +fooAsStr; // unary operator "+" means "cast to number"
 
 console.log(foo + +fooAsStr); // наркомания же какая то, ну
 
@@ -118,11 +159,11 @@ console.log(foo + +fooAsStr); // наркомания же какая то, ну
 
 Неявный, т.к. нет никаких операций (хотя тоже достаточно очевидно, что кастится)
 ```javascript
-const a = "hey there";
+var a = "hey there";
 if (a) console.log(a); // also for (; ; ); do .. while() and while() .. do; and ternary operator
 
-const b = "42";
-const c = 42;
+var b = "42";
+var c = 42;
 b == c; //true. note "==", not "==="
 
 
@@ -130,15 +171,95 @@ console.log(!a); // false
 
 ```
 
+## Truthy and falsy
+
+Неявный каст происходит к булеану внутри булевых контекстов
+
+* if (arg)
+* do {} while()
+* while() {}
+* a ? a : b
+* for (let i = 0; i < 10; i++)
+* !a
+* ||
+* &&
+
+Truthy - значения очевдино конвертятся в таких контекстах в true, 
+Falsy - в false
+
+Truthy - всё, что не falsy
+
+Falsy:
+
+<details>
+<summary>Очевидные falsy:</summary>
+
+* false
+* undefined
+* null
+* NaN
+
+</details>
+
+<details>
+<summary>Неочевидные:</summary>
+
+* ""
+* 0
+
+</details>
+
+Почему важно знать
+любой if() или другой будевый контекст
+или `|| &&` операция конвертит в булеан
+
+При этом при конвертировании, конечно же, не изменяется оригинальное значение, а возвращается новое
+
+```javascript
+function foo(input) {
+    console.log(input || "defaultValue");
+}
+
+// any of "falsy" values will be ignored. If we need empty string or 0, we have a problem
+foo("hello world");
+foo(5);
+foo(0); // oopsie
+foo(""); // oopsie
+foo(false); // oopsie
+```
+
+То же самое с if и чем угодно
+
+Насчет `||` и `&&` важно помнить, что это чудо конвертит в булеан при выборе операнда, но итоговое значение равно
+значению операнда:
+```javascript
+var a = 'some string';
+var b = a || 'default';
+var c = false || 'default';
+var d = a && 'default';
+```
+
+`&&` usecase
+```javascript
+
+var aObj = {
+  nestedObj: {
+    foo: function() { console.log("Hello world!") }
+  }
+}
+
+aObj && aObj.nestedObj && aObj.nestedObj.foo();
+```
 
 
-# "==" vs "==="
+## "==" vs "==="
 На целый урок отдельный наберется.
 
 Основная идея:
 "==" приводит типы, в то время как "===" нет
 
-Это сначала меняет тип одного или обоих операндов, а затем сравнивает как "===" 
+"=="
+Сначала меняет тип одного или обоих операндов, а затем сравнивает как "===" 
 
 Под копотом оба алгоритма добиваются сравнения **примитивов** (или возвращают false раньше)
 
@@ -146,18 +267,18 @@ console.log(!a); // false
 ```javascript
 
 null == undefined; // true
-function (a) {
+function asdf(a) {
     if (a == null); // the same as if (a === null || a === unefined)
 }
 
 
-const arr = [{
+var arr = [{
      id: 4,
      otherProp: "bla", 
      valueOf: function() {return this.id}
      }
 ];
-const iNeedId = 4;
+var iNeedId = 4;
 
 arr.find(obj => obj == iNeedId); // will find id
 // from other side... it is almost like arr.find(obj => obj.id === iNeedId);
@@ -168,9 +289,9 @@ arr.find(obj => obj == iNeedId); // will find id
 Когда это может вас поймать:
 ```javascript
 
-let a = "42"; // truthy
-let b = true; // truthy
-let c = false; // falsy
+var a = "42"; // truthy
+var b = true; // truthy
+var c = false; // falsy
 
 a == b; // false
 
@@ -195,7 +316,7 @@ new String('f') == new String('f'); // F
 
 Если один из операндов - объект, к нему применяется `valueOf`, а если `valueOf()` возвращает **не-примитив**, то применяется `toString()`
 ```javascript
-const mySuperObjectOvd = {
+var mySuperObjectOvd = {
     valueOf: function() {
         console.log('valueOf!');
         return this;
@@ -215,61 +336,16 @@ mySuperObjectOvd == "somestring";
 
 Два объекта всегда будут не равны друг другу, если это не один и тот же объект (Референс на один и тот же объект) (для `===` действует то же правило)
 ```javascript
-const someObj = {a: 5}; // undefined
+var someObj = {a: 5}; // undefined
 someObj == someObj; //true
-const someObj2 = {a: 5}; //undefined
+var someObj2 = {a: 5}; //undefined
 someObj == someObj2; //false
 
-const theSameObj = someObj;
+var theSameObj = someObj;
 someObj == theSameObj; // true
 ```
 
-## Truthy and falsy
-
-Неявный каст происходит к булеану внутри булевых контекстах
-
-* if (arg)
-* do {} while()
-* while() {}
-* a ? a : b
-* for (let i = 0; i < 10; i++)
-* !a
-
-Truthy - значения очевдино конвертятся в таких контекстах в true, 
-Falsy - в false
-
-Truthy - всё, что не falsy
-
-Falsy:
-
-* undefined
-* null
-* NaN
-* ""
-* 0
-* false
-* `||` и `&&` операнды
-
-Почему важно знать
-любой if() или `||` операция конвертит в булеан
-
-```javascript
-function foo(input) {
-    console.log(input || "defaultValue");
-}
-
-// any of "falsy" values will be ignored. If we need empty stirng or 0, we have a problem
-foo("hello world");
-foo(5);
-foo(0); // oopsie
-foo(""); // oopsie
-foo(false);
-```
-
-То же самое с if и чем угодно
-
-
-## Передача значения по ссылке и по значению
+# Передача значения по ссылке и по значению
 
 Примитивы передаются по значению, объекты - по ссылке
 
@@ -279,7 +355,7 @@ function bar(inputarg) {
   inputarg.morebar = 15;
 }
 
-const a = {bar: 10}
+var a = {bar: 10}
 bar(a);
 console.log(a); // {bar: 10, morebar: 15}
 ```
@@ -302,3 +378,10 @@ bar(aff);
 console.log(aff); // {bar: 10, morebar: 15}
 
 ```
+
+
+# TODO
+
+* JSON.parse(stringify)
+* Node global objects (console, Buffer, process etc)
+* Задание

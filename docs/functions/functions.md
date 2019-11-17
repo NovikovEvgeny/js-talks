@@ -361,11 +361,12 @@ console.log(i);// 8957
 
 ```
 
-* Не "всплывают". Ну, почти. 
+* Процесс "всплытия" другой - т.н. TDZ (Temporal dead zone)
 ```javascript
+let ho = 10;
 function test() {
-    console.log(b); // ReferenceError: b is not defined
-    let b = 10;
+  console.log(ho); // ReferenceError: Cannot access 'ho' before initialization
+  let ho = 10;
 }
 test();
 ```
@@ -567,10 +568,15 @@ console.log('I declared callback before this line, but it will be executed after
 
 ## This and objects
 
-This - магия ЖСа
-Не такой this как в Джаве или еще где
+> JavaScript makes me want to flip the table and
+> say “Fuck this shit”, but 
+> I can never be sure what “this” refers to.
 
-Зависит от способа запуска функции
+(c) @oscherler
+
+Ключевое слово this - ссылка на объект, определяемая
+в рантайме при каждом вызове функции и объект, на который ссылается
+`this` зависит от способо вызова функции
 
 ```javascript
 function someFunction(a) {
@@ -586,9 +592,9 @@ console.log(someFunction.bind({a: 7}, 8)()); // 15
 const someObj = {
   a: 8,
   funcInTheObject: someFunction,
-}
+};
 
-console.log(someObj.funcInTheObject(9)) // 17
+console.log(someObj.funcInTheObject(9)); // 17
 
 console.log(someFunctionWithGlobal()); // undefined since someGlobalVar is not defined
 function someFunctionWithGlobal() {
@@ -599,6 +605,21 @@ global.someGlobalVar = 10;
 
 console.log(someFunctionWithGlobal()); // 10 or "Type error" in "use string" mode
 ```
+
+В не-стрикт режиме забиндить `this` на `null` или `undefined` не выйдет
+```javascript
+function someFunc() {
+  console.log(this);
+  console.log(this.a);
+}
+
+someFunc.call(null); // [Object global]  // undefined
+someFunc.call(undefined); // [Object global]  // undefined
+
+```
+
+В strict - `this` будет `undefined` вместо `global`,
+ или `null` при явном указывании.
 
 ## ES6 Arrow functions
 

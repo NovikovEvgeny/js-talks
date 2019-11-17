@@ -12,7 +12,6 @@ const fs = require('fs');
 const path = require('path');
 
 
-
 function readDirRecursive(currentPath, callback) {
     fs.readdir(currentPath, (err, files) => {
         if (err) return callback(err);
