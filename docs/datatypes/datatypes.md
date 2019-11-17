@@ -89,6 +89,51 @@ console.log(max);
 
 Включая функции, и все built-in нейтивы String, Number, Boolean, Date, RegExp, Error etc
 
+### Object usage
+
+С объектом, как и с любой другой переменной можно делать разные вещи - обращаться
+к её значению, менять значение/ссылку, передавать как аргумент в функции и т.п.
+
+**Обращение к свойствам объекта** может быть выполнено двумя способами:
+
+```javascript
+
+var obj = {
+  a: 5,
+}
+
+console.log(obj.a);
+
+console.log(obj["a"]);
+
+var variable = "a";
+console.log(obj[variable]);
+
+
+obj.b = function() { console.log ("Hello") }
+obj["b"] = function() { console.log ("Hello") }
+
+variable = "b";
+obj[variable] = function() { console.log ("Hello") }
+
+```
+
+**Обычно** используется первый способ, второй удобен когда:
+
+1. Имя свойства содержит символы типа `-`, `+` и т.д.
+2. Имя свойства сохранено в переменной
+
+
+```javascript
+
+var obj = {}
+obj["content-length"] = 5;
+
+var variable = "content-length";
+console.log(obj[variable]);
+
+```
+
 ### Boxing
 
 ```javascript
@@ -385,3 +430,70 @@ console.log(aff); // {bar: 10, morebar: 15}
 * JSON.parse(stringify)
 * Node global objects (console, Buffer, process etc)
 * Задание
+
+
+
+
+
+# Задание
+
+Написать скрипт, который будет иметь функцию которая парсит входные аргументы и формурует из них объект, 
+в котором ключ объекта - имя входного аргумента, а значение по ключу - значение входного аргумента
+
+Пример
+```
+node index.js property1 value1 property2 value2
+```
+
+Должен составить объект
+```json
+{
+  "property1": "value1",
+  "property2": "value2"
+}
+```
+
+Сложность 0:
+Не учитывать типы данных - просто взять и составить объект из входных данных
+
+Сложность 1:
+
+До запуска скрипта в нем же можно указать, какие ожидаются имена аргументов и значения по умолчанию, если аргумент не задан
+
+Пример:
+
+```javascript
+const argTypes = {
+    property1: 1,
+    property2: "hello",
+    property3: false,
+}
+```
+
+
+Сложность 2:
+
+До запуска скрипта в нем же можно указать, какой ожидается тип данных у какого аргумента, прямо в самом index.js
+И функция будет Кастить входные аргументы в соответствии с этим объектом
+
+Пример:
+```javascript
+const argTypes = {
+    property1: {
+      type: "number",
+      default: 1,
+    },
+    property2: {
+      type: "string",
+      default: "hello",
+    },
+    property3: {
+      type: "boolean",
+      default: false,
+    },
+    property4: {
+      type: "object",
+      default: { hello: "world" }
+    }
+}
+```
