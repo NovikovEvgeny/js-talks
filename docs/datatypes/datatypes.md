@@ -83,6 +83,13 @@ for (let i = 0; i < arr.length; i++) {
 console.log(max);
 ```
 
+И еще одно "зато" - можно делить на 0 без ошибок!
+
+```javascript
+console.log(5 / 0); // Infinity
+console.log(-5 / 0); // -Infinity
+```
+
 ## Object
 
 > An Object is logically a collection of properties.
