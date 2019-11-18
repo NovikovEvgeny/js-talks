@@ -9,10 +9,10 @@
 * boolean
 * null
 * undefined
-
-( --- "составной" ---)
-* object
 * Symbol (ES6)
+
+( --- составной ---)
+* object
 
 > Стоит упомянуть `BigInt`([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/BigInt))  - до сих пор не в спецификации ECMAScript, но уже в Stage 3 (предпоследняя) и поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0
 
@@ -419,25 +419,17 @@ console.log(a); // {bar: 10, morebar: 15}
 ```javascript
 
 function barf(inputarg) {
-  inputarg.morebar = 15;
+    inputarg.morebar = 15;
 }
 
 const aff = {bar: 10}
 
 Object.freeze(aff);
 
-bar(aff);
-console.log(aff); // {bar: 10, morebar: 15}
+barf(aff);
+console.log(aff); // {bar: 10}
 
 ```
-
-
-# TODO
-
-* JSON.parse(stringify)
-* Node global objects (console, Buffer, process etc)
-* Задание
-
 
 # Node global objects 
 
@@ -562,5 +554,60 @@ const argTypes = {
       type: "object",
       default: { hello: "world" }
     }
+}
+```
+
+
+## Tips
+
+скрипт, чтобы вывести первый не-дефолтный входной аргумент в ноде (`process.argv` - массив):
+
+```javascript
+// index.js
+console.log(process.argv[2]);
+```
+
+Запуск:
+
+```
+node index.js hello
+```
+
+
+форматирование из примитива в примитив другого типа:
+```javascript
+const num = Number("420"); // String() Number() Boolean()
+```
+
+
+форматирование из строки в JSON и обратно:
+```javascript
+var str = '{"hello": "world"}';
+console.log(JSON.parse(str).hello);
+console.log(JSON.stringify(JSON.parse(str)));
+```
+
+доступ к свойствам объекта с помощью переменных
+```javascript
+
+const propertyName = "hello";
+
+var a = {
+  [propertyName]: "world"
+}
+
+console.log(a[propertyName]);
+
+var b = {};
+b[propertyName] = "world";
+```
+
+цикл по массиву:
+
+```javascript
+var array = [1, 2, 3];
+
+for (var i = 0; i < array.length; i++) {
+  console.log(array[i]);
 }
 ```
