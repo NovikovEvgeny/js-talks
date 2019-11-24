@@ -148,7 +148,7 @@ function printGlobalVar() {
 }
 
 module.exports = {
-    printGlobalVar: printGlobalVar,
+    printGlobalVar,
 }
 
 // main.js
@@ -177,6 +177,7 @@ printHelloWorld();
 ```
 
 "Поиск" переменной по скоупам
+
 Алгоритм прост - движок при выполнении "обращается" к текущей области видимости, спрашивает о наличии объявленной переменной,
 если такой нет - идет на 1 уровень выше и повторяет действия, пока не дойдет до глобальной области видимости
 
@@ -221,7 +222,7 @@ function test() {
 test(); // test
 ```
 
-#### Хоистинг (поднятие, всплытие и еще много разных странных существительных)
+### Хоистинг (поднятие, всплытие и еще много разных странных существительных)
 
 Функции, объявленные через `function declaration`, и переменные, объявленные через `var`, "объявляются" в начале выполнения скрипта или функции
 Это можно представить так, будто объявления функций и переменных (но не присваивание переменных!!!) "поднимаются" в топ области видимости
@@ -334,13 +335,10 @@ console.log(j); // 10
 
 Вывод - let и const наши друзья, var наш враг. Ну или как минимум противный поц с которым не хочется иметь дело.
 
-
-С `function declaration` не все так просто
-Много статей говорят о том, что он ведет себя как `var`, однако Node.js 8 и Хром 72 определяют функции как block scoped. При
-
 ## ES6. Let и const - основные отличия
 
 * блочная область видимости
+
 ```javascript
 
 console.log(a); // ReferenceError: a is not defined
@@ -362,27 +360,15 @@ console.log(i);// 8957
 ```
 
 * Процесс "всплытия" другой - т.н. TDZ (Temporal dead zone)
+
 ```javascript
 let ho = 10;
-function test() {
-  console.log(ho); // ReferenceError: Cannot access 'ho' before initialization
-  let ho = 10;
+function test() {  
+    console.log(ho); // ReferenceError: Cannot access 'ho' before initialization
+    let ho = 10;
 }
 test();
-```
 
-
-```javascript
-function foo() {
-  let a = "outer";
-
-  for (let x = 0; x < 3; ++x) {
-    console.log(a);            // ReferenceError: a is not defined
-    let a = 27;
-  }
-
-}
-foo();
 ```
 
 * const - неизменяемая

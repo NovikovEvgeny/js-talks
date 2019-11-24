@@ -1,2 +1,3 @@
-* [Home](/)
-* [Datatypes](datatypes/datatypes.md)
+- [Home](/)
+- [Datatypes](datatypes/datatypes.md)
+- [Functions](functions/functions.md)
