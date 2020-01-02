@@ -1,4 +1,5 @@
 # Модули ECMAScript и CommonJS
+
 ## ECMAScript
 import загружает асинхронно, после загрузки и синтаксического анализа нам известно что доступно в модуле к исопльзованию.
 ## CommonJS
@@ -38,18 +39,79 @@ module.exports = class Square {
 Со стороны ES можно использовать CJS модули через import, потому что асинхронная загрузка может быть и не нужна. Но есть одно НО - именнованные импорты.
 `import {foo, bar} from 'baz.cjs'` никогда не заработает потому что мы не знаем структуру модуля до окончания загрузки.
 
-# Nodejs
-## LazyLoading
+## Nodejs
+### LazyLoading
 Так как `require()` - синхронный, то весь код модуля исполнится сразу, при использовании CJS нет понятия lazyLoading.
 
-## Dynamic path resolvement
+### Dynamic path resolvement
 
 [filename](example/dynamic-path/index.js ':include :type=code')
 
-## Examples
+### Examples
 
 [filename](example/exports/index.js ':include :type=code')
 
-## cjs vs mjs
+### cjs vs mjs
 
 [filename](example/ejs-cjs/index.js ':include :type=code')
+
+## Code style for modules
+
+1. Use default export only for class files. When we 100% know that only one "entity" is exported from this file (either class or a singleton instance of the class)
+
+    **MyClass.js**
+    ```javascript
+    class MyClass {
+      sayHello() {
+        console.log('hello');
+      }
+    }
+    
+    module.exports = MyClass;
+    ```
+    
+    **index.js**
+    ```javascript
+    const MyClass = require('./MyClass.js');
+    new MyClass().sayHello();
+    ```
+    or:
+    
+    **MyClassSingleton.js**
+    ```javascript
+    class MyClass {
+      sayHello() {
+        console.log('hello');
+      }
+    }
+    
+    module.exports = new MyClass();
+    ```
+    
+    **index.js**
+    ```javascript
+    const myClassSingleton = require('./MyClassSingleton.js');
+    myClassSingleton.sayHello();
+    ```
+
+Then default export doesn't confuse about what was exported and how.
+
+2. do not mix default export and named export
+3. In case module exports functions, always use `exports.functionName = functionName` construction. Yes,
+this looks a bit ugly, but it allows to JetBrains IDEs to index functions usage and use "Find usages"/"Go to declaration"
+features, what is really helpful.
+
+    ```javascript
+    function sum(a, b) {
+      return a + b;
+    }
+    
+    function subtract(a, b) {
+      return a - b;
+    }
+    exports.sum = sum;
+    exports.substract = subtract;
+    ```
+
+4. Do not use default export even if your module exports only one function. In the future maybe this module will need to extend,
+what will require to rewrite it's usages.
