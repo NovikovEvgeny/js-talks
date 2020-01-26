@@ -3,3 +3,4 @@
 - [Functions](functions/functions.md)
 - [This](this/this.md)
 - [Modules](modules/modules.md)
+- [Await](await/await.md)
