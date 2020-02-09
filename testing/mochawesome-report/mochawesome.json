@@ -1,0 +1,192 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2020-02-09T12:08:57.064Z",
+    "end": "2020-02-09T12:08:57.102Z",
+    "duration": 38,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "4dbba795-3a8e-48cb-8f89-915b16766d8e",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+          "title": "GitHub.js spec test with nocks",
+          "fullFile": "S:\\Projects\\super\\testing\\test\\mocha-nock\\github.spec.js",
+          "file": "\\test\\mocha-nock\\github.spec.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook",
+              "fullTitle": "GitHub.js spec test with nocks \"before all\" hook",
+              "timedOut": false,
+              "duration": 3,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "nock('https://api.github.com')\n  .get('/users/NovikovEvgeny/repos')\n  .reply(200, [\n    { name: 'repo1' },\n    { name: 'repo2' },\n    { name: 'repo3' },\n    { name: 'repo4' },\n    { name: 'puppeteer' },\n  ]);\nnock('https://api.github.com')\n  .get('/users/notfound/repos')\n  .reply(404, {\n    error: 'user not found'\n  });",
+              "err": {},
+              "uuid": "ff49dacd-775d-43a6-b0f1-d88204d8fe0b",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"before each\" hook",
+              "fullTitle": "GitHub.js spec test with nocks \"before each\" hook",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "dbce84be-13e4-42ed-ab2a-7a0d0424aad0",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook",
+              "fullTitle": "GitHub.js spec test with nocks \"after all\" hook",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "c4f19faa-feb4-4618-bd75-3fed8cfe127a",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": true,
+              "skipped": false
+            },
+            {
+              "title": "\"after each\" hook",
+              "fullTitle": "GitHub.js spec test with nocks \"after each\" hook",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "",
+              "err": {},
+              "uuid": "f74d529a-3fcd-45a2-b4f0-0279b153f52d",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "getRepositories should return array in good case",
+              "fullTitle": "GitHub.js spec test with nocks getRepositories should return array in good case",
+              "timedOut": false,
+              "duration": 18,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const response = await github.getRepositories('NovikovEvgeny');\n    // expect\n    expect(response).to.have.lengthOf(5);\n    expect(response).to.include('puppeteer');",
+              "err": {},
+              "uuid": "64bce90e-3949-46fc-a8e0-36bdd30ed121",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "getRepositories should rethrow any error",
+              "fullTitle": "GitHub.js spec test with nocks getRepositories should rethrow any error",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "github.getRepositories('notfound')\n  .then(() => {\n    done('getRepositories should reject promise when username not found');\n  })\n  .catch(err => {\n    expect(err.message).to.be.eql('Request failed with status code 404');\n    expect(err.response.data.error).to.be.eql('user not found');\n    done();\n  })",
+              "err": {},
+              "uuid": "d2f56848-113f-4c8a-8a66-6426da2421a8",
+              "parentUUID": "6bed4e45-df46-4dba-8c18-7e1f2ef04e77",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "64bce90e-3949-46fc-a8e0-36bdd30ed121",
+            "d2f56848-113f-4c8a-8a66-6426da2421a8"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 19,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false
+      },
+      "version": "4.1.0"
+    },
+    "marge": {
+      "options": null,
+      "version": "4.1.0"
+    }
+  }
+}
