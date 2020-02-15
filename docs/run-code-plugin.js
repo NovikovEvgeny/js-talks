@@ -1,33 +1,62 @@
-// Plugin
-// =============================================================================
 
-let buffer = '';
+console.outputBuffer = '';
 console.oldLog = console.log;
 console.clearBuff = function() {
-  buffer = '';
+  this.outputBuffer = '';
 };
-console.log = function(value) {
-  console.oldLog(value);
-  buffer += value + '\n';
+console.log = function(...values) {
+  console.oldLog(values);
+  this.outputBuffer += values.join(' ') + '\n';
 };
 console.getBuffer = function() {
-  let bufferToReturn = buffer;
-  buffer = '';
+  let bufferToReturn = this.outputBuffer;
+  this.outputBuffer = '';
   return bufferToReturn;
 };
 
+const modalHTML = `
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h2>Code Runner</h2>
+    </div>
+    <div class="modal-body">
+      <p>Output of</p>
+      <p class="modal-gray" id="modal-code-snippet"></p>
+      <p>is</p>
+      <p class="modal-gray" id="modal-code-execution-output">result</p>
+    </div>
+    <div class="modal-footer">
+      (c) JS Talks
+    </div>
+  </div>
+</div>
+`;
+
 function docsifyrunCode(hook, vm) {
+  document.body.innerHTML += modalHTML;
+  const modal = document.getElementById("myModal");
+  const span = document.getElementsByClassName("close")[0];
+  span.onclick = function() {
+    modal.style.display = "none";
+    document.getElementById("modal-code-snippet").innerHTML = '';
+  };
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+      document.getElementById("modal-code-snippet").innerHTML = '';
+    }
+  };
+
   hook.doneEach(function() {
     const targetElms = Array.apply(null, document.querySelectorAll('pre[data-lang]'));
 
-    const template = [
-      '<button class="docsify-run-code-button">',
-      'Run in browser',
-      '</button>'
-    ].join('');
-
     targetElms.forEach(elm => {
-      elm.insertAdjacentHTML('afterbegin', template);
+      elm.insertAdjacentHTML('afterbegin', '<button class="docsify-run-code-button">Run in browser</button>');
     });
   });
 
@@ -35,39 +64,30 @@ function docsifyrunCode(hook, vm) {
     const listenerHost = document.querySelector('.content');
 
     listenerHost.addEventListener('click', function(evt) {
-      const isrunCodeButton = evt.target.classList.contains('docsify-run-code-button');
-      if (isrunCodeButton) {
+      const isRunCodeButton = evt.target.classList.contains('docsify-run-code-button');
+      if (isRunCodeButton) {
         const buttonElm = evt.target.tagName === 'BUTTON' ? evt.target : evt.target.parentNode;
         const preElm = buttonElm.parentNode;
         const codeElm = preElm.querySelector('code');
+
         try {
           eval(codeElm.innerText);
         } catch (e) {
-          buffer += e;
+          console.outputBuffer += e;
         }
-        alert(`output of ${codeElm.innerText} is ${console.getBuffer()}`);
+
+        const snippetInsideModal = preElm.cloneNode(true);
+        const runCodeBth = snippetInsideModal.firstChild;
+        const copyCodeBth = snippetInsideModal.lastChild;
+        snippetInsideModal.removeChild(runCodeBth);
+        snippetInsideModal.removeChild(copyCodeBth);
+        document.getElementById("modal-code-snippet").appendChild(snippetInsideModal);
+        document.getElementById("modal-code-execution-output").innerText = console.getBuffer();
+        modal.style.display = "block";
       }
     });
   });
 }
-
-// Deprecation warning for v1.x: stylesheet
-if (document.querySelector('link[href*="docsify-copy-code"]')) {
-  // eslint-disable-next-line
-  console.warn('[Deprecation] Link to external docsify-copy-code stylesheet is no longer necessary.');
-}
-
-// Deprecation warning for v1.x: init()
-window.DocsifyrunCodePlugin = {
-  init: function() {
-    return function(hook, vm) {
-      hook.ready(function() {
-        // eslint-disable-next-line
-        console.warn('[Deprecation] Manually initializing docsify-copy-code using window.DocsifyrunCodePlugin.init() is no longer necessary.');
-      });
-    };
-  }
-};
 
 window.$docsify = window.$docsify || {};
 window.$docsify.plugins = [docsifyrunCode].concat(window.$docsify.plugins || []);
