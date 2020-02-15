@@ -1,9 +1,9 @@
 # JS - Типы данных
 
 ## Основы
-Всего - 7 типов данных
+Всего в JS 7 типов данных
 
-( ---примитивы--- )
+**Примитивы:**
 * number
 * string
 * boolean
@@ -11,84 +11,88 @@
 * undefined
 * Symbol (ES6)
 
-( --- составной ---)
+**Составной тип данных:**
 * object
 
 > Стоит упомянуть `BigInt`([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/BigInt))  - до сих пор не в спецификации ECMAScript, но уже в Stage 3 (предпоследняя) и поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0
 
+## typeof
 
-Тип переменной можно определить с помощью оператора typeof
+Тип переменной можно определить с помощью оператора `typeof`. Он возвращает **строку**.
 
-```javascript
-typeof 148 === "number"
-typeof "148" === "string"
-typeof true === "boolean"
-typeof undefined === "undefined"
-typeof { hello: "world" } === "object"
+**Определение типа для примитивов**:
 
-// BUT
-typeof null === "object" // lol, because it's JS
+[filename](typeof.js ':include :type=code :fragment=typeofPrimitives')
 
-// Build-in "Natives"
-typeof [1, 2, 3] === "object"
-typeof new Number() === "object"
-typeof new Date() === "object" 
-typeof /.*/ === "object"
+!> Но! `typeof null` возвращает "object", хотя это ни разу не объект!
 
-// BUT
-typeof function() {console.log('hi!')} === "function" // lol, why not
-```
+[filename](typeof.js ':include :type=code :fragment=typeofNull')
 
-`typeof` можно применять к **необъявленным** переменным:
-```javascript
+Через `typeof` также не стоит пытаться определить тип не-примитива. Всегда (почти) будет object. Потому что почти всё в JS - это
+object
 
-console.log(typeof undefinedVal); // undefined
-console.log(undefinedVal); // ReferenceError: undefinedVal is not defined
-```
+[filename](typeof.js ':include :type=code :fragment=typeofObject')
+
+!> Почему "всегда (почти)"? Потому что `typeof` для функции возвращает "function", несмотря на то, что такого типа данных
+нет
+
+[filename](typeof.js ':include :type=code :fragment=typeofFunction')
+
+> `typeof` можно применять к **необъявленным** переменным:
+
+[filename](typeof.js ':include :type=code :fragment=typeofUndefined')
+
+## number
+
+### Запись числа
+
+Обычные числа в JavaScript хранятся в 64-битном формате [IEEE-754](https://en.wikipedia.org/wiki/IEEE_754), который также называют 
+«числа с плавающей точкой двойной точности»
+(double precision floating point numbers).
+
+Способы записи числа
+
+[filename](number.js ':include :type=code :fragment=howToDefine')
+
+Ещё есть шестнадцатиричная форма записи (`0xFF` = 255), двоичная (`0b111` = 7), восьмиричная (`0o377` = 255).
+Как видно, маска для записи таких чисел: `0<symbol><actualNumber>`, где `<symbol>` - `x`, `b` или `o`, а затем
+идет запись числа в N-ричном формате
+
+
+### Floating point numbers - не проблема JS-а!
+
+[filename](number.js ':include :type=code :fragment=floating')
+
+Как обойти это чудо? Как и сказано в стандарте IEEE-754 - округлением
+
+[filename](number.js ':include :type=code :fragment=floatingRound')
+
+### Любимое число
 
 Любимое число - `NaN` - Not a Number
+Кстати, тоже описанное в IEEE-754
 
-```javascript
-var b = parseInt('sdf');
-console.log(b); // NaN
-console.log(typeof b); // number
-```
+[filename](number.js ':include :type=code :fragment=NaN')
 
 Так что это скорее не "не число", а "значение, при приведении которого к number возникла ошибка"
 
-Чуть менее любимое число - `Infinity` и `-Infinity`
+[filename](number.js ':include :type=code :fragment=NaNCompare')
 
-```javascript
-var c = Number.MAX_VALUE;
-c += c;
-console.log(c); // Infinity
-console.log(c / Infinity); // 0
-```
+### Чуть менее любимое число
+
+Чуть менее любимое число - `Infinity` и `-Infinity`. Бесконечность. И тоже описанная в IEEE 754.
+
+[filename](number.js ':include :type=code :fragment=Infinity')
 
 Зато никакого overflow
 
-Да еще и один полезный юзкейс - при поиске максимума/минимума
+Да еще и один полезный юзкейс - при поиске максимума/минимума. Или в любом другом случае, когда нужно "очень-очень большое число".
 
-```javascript
-
-var arr = [5, 15, 23, 0, -1];
-
-let max = -Infinity;
-
-for (let i = 0; i < arr.length; i++) {
-  if (arr[i] > max) {
-    max = arr[i];
-  }
-}
-console.log(max);
-```
+[filename](number.js ':include :type=code :fragment=FindMax')
 
 И еще одно "зато" - можно делить на 0 без ошибок!
 
-```javascript
-console.log(5 / 0); // Infinity
-console.log(-5 / 0); // -Infinity
-```
+[filename](number.js ':include :type=code :fragment=DivideByZero')
 
 ## Object
 
