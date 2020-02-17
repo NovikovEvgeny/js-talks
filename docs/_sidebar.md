@@ -1,6 +1,8 @@
 - [Home](/)
-- [Datatypes](datatypes/datatypes.md)
+- [Data types](datatypes/)
 - [Functions](functions/functions.md)
 - [This](this/this.md)
 - [Modules](modules/modules.md)
 - [Await](await/await.md)
+- ___
+- [Homework](homework/)
