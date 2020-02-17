@@ -94,6 +94,39 @@ object
 
 [filename](number.js ':include :type=code :fragment=DivideByZero')
 
+## string
+
+Строки есть. "Символов" нет. 
+
+Строки кодируются в UTF-16.
+
+Объявление строки - с помощью кавычек. Одинарные, двойные, или обратные.
+
+Одинарные и двойные - по сути одно и то же.
+
+[filename](string.js ':include :type=code :fragment=defineString')
+
+Обратные кавычки - имеют бОльшую функциональность:
+
+* можно использовать переменные прямо внутри объявления строки
+    
+[filename](string.js ':include :type=code :fragment=useVariableInStr')
+
+* можно использовать больше одной строки
+
+[filename](string.js ':include :type=code :fragment=moreThanOneString')
+
+Обращаться к символам строки можно с помощью квадратных скобок `[<index>]`, либо с помощью метода `.charAt(<index>)`
+
+[filename](string.js ':include :type=code :fragment=charAccess')
+
+Строки - иммутабельны. Нельзя изменить уже существующую строку. Как только она создана, она создана навсегда.
+
+Все методы строк возвращают новую строку, а не меняют существующую.
+
+[filename](string.js ':include :type=code :fragment=immutableString')
+
+
 ## Object
 
 > An Object is logically a collection of properties.
