@@ -59,7 +59,7 @@ object
 идет запись числа в N-ричном формате
 
 
-### Floating point numbers - не проблема JS-а!
+### Floating point numbers
 
 [filename](number.js ':include :type=code :fragment=floating')
 
@@ -126,6 +126,9 @@ object
 
 [filename](string.js ':include :type=code :fragment=immutableString')
 
+!> *For fun*: есть один известный баг (фича) в V8, когда при вызове  методов строки возвращаемая строка "внутри"
+содержит ссылку на родительскую строку, тем самым не давая GC очистить ролительскую строку, даже если она больше нигде не используется.
+[Статья на хабре](https://habr.com/ru/post/449368/); [Баг в V8](https://bugs.chromium.org/p/v8/issues/detail?id=2869)
 
 ## Object
 
@@ -140,127 +143,81 @@ object
 
 **Обращение к свойствам объекта** может быть выполнено двумя способами:
 
-```javascript
+[filename](object.js ':include :type=code :fragment=objectKeys')
 
-var obj = {
-  a: 5,
-}
-
-console.log(obj.a);
-
-console.log(obj["a"]);
-
-var variable = "a";
-console.log(obj[variable]);
-
-
-obj.b = function() { console.log ("Hello") }
-obj["b"] = function() { console.log ("Hello") }
-
-variable = "b";
-obj[variable] = function() { console.log ("Hello") }
-
-```
-
-**Обычно** используется первый способ, второй удобен когда:
+**Обычно** используется первый способ. Второй удобен, когда:
 
 1. Имя свойства содержит символы типа `-`, `+` и т.д.
 2. Имя свойства сохранено в переменной
 
-
-```javascript
-
-var obj = {}
-obj["content-length"] = 5;
-
-var variable = "content-length";
-console.log(obj[variable]);
-
-```
+[filename](object.js ':include :type=code :fragment=objectKeysExpression')
 
 ### Boxing
 
-```javascript
-typeof 'str' // "string" primitive string! not an object!
-typeof new String('str'); // "object" !
-'str'.toUpperCase(); // "STR". // Automatically boxed to String and `toUpperCase()` method called
-new String('str').toUpperCase() // "STR"
+[filename](object.js ':include :type=code :fragment=objectBoxing')
 
-new Boolean(false);
-
-new Number(55);
-new Number("55");
-
-// no need to use explicit boxing usually, it can even hurt you
-var someBool = new Boolean(false);
-if (someBool) {
-    console.log("someBool is true"); // gotcha. someBool is an object and object is always truthy
-} else {
-    console.log("someBool is false");
-}
-
-// prints: "someBool is true"
-```
 Вывод: почти никогда нет смысла явно врапать в объект, ЖС сам скастит, если надо, например, вызвать метод прототипа
 
-В то же время есть смысл использовать конструкторы Нейтивов для `Error` и `Date`, т.к. по-другому вы не создадите такой объект: 
-```javascript
-// Makes sense to use Native cuonstructors for Error and Date:
-var err = new Error('error message');
-var date = (new Date()).getTime();
-```
+В то же время есть смысл использовать конструкторы Нейтивов для `Error` и `Date` (`Map`, `Set`, etc),
+т.к. по-другому вы не создадите такой объект: 
+
+[filename](object.js ':include :type=code :fragment=objectConstructor')
 
 
-# Coercion <3
+### Передача значения по ссылке и по значению
 
-Конвертирование данных из одного типа в другой
+Примитивы передаются по значению, объекты - по ссылке.
+
+[filename](object.js ':include :type=code :fragment=referenceVsValue')
+
+`const` при объявлении объекта не иммутит **весь** объект, а лишь ссылку на этот объект
+(в переменную `a` нельзя будет записать ссылку на другой объект)
+
+Проперти объекта менять по-прежнему можно.
+Чтобы совсем заморозить объект, можно использовать
+
+[filename](object.js ':include :type=code :fragment=objectFreeze')
+
+Но и это не сработает, если объекты вложенны
+
+[filename](object.js ':include :type=code :fragment=objectFreezeDeep')
+
+Почему? Потому что "Object is a collection of properties" и `Object.freeze` "замораживает" только проперти (ключи) 
+переданного объекта. "Вложенный" объект - уже другая сущность, и она не замораживается.
+
+### Удаление свойства
+
+Ключ (и значение) из объекта можно удалить с помощью ключевого слова `delete`
+
+[filename](object.js ':include :type=code :fragment=objectDelete')
+
+### new String() vs String
+
+при вызове конструктора `new` создается новый **объект** данного типа, без new - просто кастится один тип в другой
+
+[filename](object.js ':include :type=code :fragment=newVsCoercion')
+
+## Coercion <3
+
+Приведение данных из одного типа в другой.
+
 Явное и неявное
 
-"Явность" на самом деле зависит от понимания
+"Явность" на самом деле зависит от понимания написанного кода.
 
 Очевидно явный каст:
-```javascript
-var someNum = 42;
-// cast
-var someStr = String(someNum);
-// create instance of String "class" and coercion
-var someStrObj = new String(someNum);
 
-typeof someStr; // string
-typeof someStrObj; // object
-
-var someNumCaster = Number(someStr);
-var someNumParsed = parseInt(someStr);
-```
+[filename](coercion.js ':include :type=code :fragment=clearCoercion')
 
 Чуть менее явный:
-```javascript
-var foo = 42;
-var fooAsStr = foo + ""; // second arg is string -> fooAsStr 100% string
-var fooAlsoAsStr = fooAsStr.toString(); // also kinda obvious
 
-var barAsNum = +fooAsStr; // unary operator "+" means "cast to number"
-
-console.log(foo + +fooAsStr); // наркомания же какая то, ну
-
-!foo; // false
-```
+[filename](coercion.js ':include :type=code :fragment=notSoClearCoercion')
 
 Неявный, т.к. нет никаких операций (хотя тоже достаточно очевидно, что кастится)
-```javascript
-var a = "hey there";
-if (a) console.log(a); // also for (; ; ); do .. while() and while() .. do; and ternary operator
 
-var b = "42";
-var c = 42;
-b == c; //true. note "==", not "==="
+[filename](coercion.js ':include :type=code :fragment=maybeUnclearCoercion')
 
-
-console.log(!a); // false
-
-```
-
-## Truthy and falsy
+### Truthy and falsy
 
 Неявный каст происходит к булеану внутри булевых контекстов
 
@@ -274,6 +231,7 @@ console.log(!a); // false
 * &&
 
 Truthy - значения очевдино конвертятся в таких контекстах в true, 
+
 Falsy - в false
 
 Truthy - всё, что не falsy
@@ -298,181 +256,75 @@ Falsy:
 
 </details>
 
-Почему важно знать
-любой if() или другой будевый контекст
-или `|| &&` операция конвертит в булеан
+Почему важно знать:
+
+любой `if()`, или другой булевый контекст, или `|| &&` операция конвертят в булеан, поэтому это и называется "булевый контекст"
 
 При этом при конвертировании, конечно же, не изменяется оригинальное значение, а возвращается новое
 
-```javascript
-function foo(input) {
-    console.log(input || "defaultValue");
-}
+[filename](coercion.js ':include :type=code :fragment=defaultValue')
 
-// any of "falsy" values will be ignored. If we need empty string or 0, we have a problem
-foo("hello world");
-foo(5);
-foo(0); // oopsie
-foo(""); // oopsie
-foo(false); // oopsie
-```
+То же самое с `if` и чем угодно
 
-То же самое с if и чем угодно
+!> Операторы `||` и `&&` конвертят в булеан при выборе операнда, но итоговое операции равно значению операнда (wut):
 
-Насчет `||` и `&&` важно помнить, что это чудо конвертит в булеан при выборе операнда, но итоговое значение равно
-значению операнда:
-```javascript
-var a = 'some string';
-var b = a || 'default';
-var c = false || 'default';
-var d = a && 'default';
-```
+[filename](coercion.js ':include :type=code :fragment=orOperator')
 
 `&&` usecase
-```javascript
 
-var aObj = {
-  nestedObj: {
-    foo: function() { console.log("Hello world!") }
-  }
-}
-
-aObj && aObj.nestedObj && aObj.nestedObj.foo();
-```
-
+[filename](coercion.js ':include :type=code :fragment=andOperator')
 
 ## "==" vs "==="
 На целый урок отдельный наберется.
 
-Основная идея:
+!>Основная идея:
 "==" приводит типы, в то время как "===" нет
 
-"=="
-Сначала меняет тип одного или обоих операндов, а затем сравнивает как "===" 
+"==" сначала меняет тип одного или обоих операндов, а затем сравнивает как "===" 
 
 Под копотом оба алгоритма добиваются сравнения **примитивов** (или возвращают false раньше)
 
 Когда это может быть полезно
-```javascript
 
-null == undefined; // true
-function asdf(a) {
-    if (a == null); // the same as if (a === null || a === unefined)
-}
+[filename](equality.js ':include :type=code :fragment=soft')
 
-
-var arr = [{
-     id: 4,
-     otherProp: "bla", 
-     valueOf: function() {return this.id}
-     }
-];
-var iNeedId = 4;
-
-arr.find(obj => obj == iNeedId); // will find id
-// from other side... it is almost like arr.find(obj => obj.id === iNeedId);
-
-```
 ну... и всё...
 
 Когда это может вас поймать:
-```javascript
 
-var a = "42"; // truthy
-var b = true; // truthy
-var c = false; // falsy
+[filename](equality.js ':include :type=code :fragment=softBad')
 
-a == b; // false
+А все потому, что "==" оператор **кастит булеан в намбер**, а не наоборот
 
-// ok a == b is false, then a == c is true?
-a == c; // false. wtf?
-
-
-new String('f') == new String('f'); // F
-
-```
-
-"==" оператор **кастит булеан в намбер**, а не наоборот
-```javascript
-"1" == true;
-1 == true;
-
-0 == false;
-"0" == false;
-```
+[filename](equality.js ':include :type=code :fragment=booleanNumber')
 
 При сравнении стринги и намбера, "==" оператор **кастит стринг в намбер**
 
 Если один из операндов - объект, к нему применяется `valueOf`, а если `valueOf()` возвращает **не-примитив**, то применяется `toString()`
-```javascript
-var mySuperObjectOvd = {
-    valueOf: function() {
-        console.log('valueOf!');
-        return this;
-    },
-    toString: function() {
-        console.log('toString!');
-        return "somestring"
-    }
-}
 
-mySuperObjectOvd == "somestring";
-//valueOf!
-//toString!
-//true
-```
-
+[filename](equality.js ':include :type=code :fragment=valueOf')
 
 Два объекта всегда будут не равны друг другу, если это не один и тот же объект (Референс на один и тот же объект) (для `===` действует то же правило)
-```javascript
-var someObj = {a: 5}; // undefined
-someObj == someObj; //true
-var someObj2 = {a: 5}; //undefined
-someObj == someObj2; //false
 
-var theSameObj = someObj;
-someObj == theSameObj; // true
-```
+[filename](equality.js ':include :type=code :fragment=equalObjects')
 
-# Передача значения по ссылке и по значению
+## JS Global Object
 
-Примитивы передаются по значению, объекты - по ссылке
+В стандарте JS есть множество "глобальных объектов" - обычно это
+какие-либо стркутуры данных. Например,
 
-```javascript
+* Обертки для типов данных: `Number`, `String`, `Boolean` etc
+* "Классы" `Error`, `Date`
+* Структуры данных `Array`, `Map`, `Set`
+* Вспомогательные штуки типа `Promise`
 
-function bar(inputarg) {
-  inputarg.morebar = 15;
-}
+Всё это описано в стандарте и должно работать в любой среде выполнения JS
 
-var a = {bar: 10}
-bar(a);
-console.log(a); // {bar: 10, morebar: 15}
-```
+## Node global objects 
 
-`const` при объявлении объекта не иммутит **весь** объект, а лишь ссылку на этот объект (в переменную `a` нельзя будет записать ссылку на другой объект)
+У ноды есть свои глобальные объекты, типо `window` в браузерах. Эти объекты принадлежат ноде, а не V8, так что процесса в браузере не будет.
 
-Проперти объекта менять по-прежнему можно.
-Чтобы совсем заморозить объект, можно использовать
-```javascript
-
-function barf(inputarg) {
-    inputarg.morebar = 15;
-}
-
-const aff = {bar: 10}
-
-Object.freeze(aff);
-
-barf(aff);
-console.log(aff); // {bar: 10}
-
-```
-
-# Node global objects 
-
-У ноды есть свои глобальные объекты, типо windows в браузерах и все такое. Эти объекты принадлежат ноде, а не V8, так что процесса в браузере не будет.
-
-## console
+### console
 
 В ноде есть класс `Console`, функционал которого похож на такой же в браузере. Конструктор позволяет определить 2 потока для записи данных: output для `.log()` и error, для варнингов и ошибок. Если стрим для ошибок и варнингов не определен - все будет уходить в output.
 
@@ -484,7 +336,7 @@ console.log(aff); // {bar: 10}
 * для замера времени - `.time(label)`, `.timeEnd(label)`. Лейбл уникальный для каждого замера, вызов окончания выведет результат в ms в консоль.
 * для assertion test - `.assert(value[, message][, ...])`. В отличии от браузеров кинет `AssertionError` и закончит выполнение.
 
-## process
+### process
 
 Предоставляет информацию и контролирует текущий процесс Node.js. Как глобальный объект, он всегда доступен приложениям Node.js без необходимости вызова require().
 Сам по себе процесс - экземпляр EventEmitter, так что он может бросать несколько ивентов. Все сигнальные ивенты, такие как `SIGINT`, `SIGTERM` и прочие. Удобно работать с ними когда необходимо обеспечить gracefull shutdown. Еще есть `disconnect`, `beforeExit` и `exit`. Первый управление дочерними процессами, второй генерируется когда в евентлупе больше нет задач, а третий можно вызвать через `process.exit()` либо он сгенерируется когда лупа пустая. 
@@ -502,7 +354,7 @@ console.log(process.env.test); // 'undefined'
 
 И еще много проперти которые есть, но нужны в каких-то специальных кейсах.
 
-## dash variables
+### dash variables
 Удобно, когда организовываешь работу с локальными файлами.
 `__dirname` - имя каталога, в котором в данный момент находится выполняющийся скрипт.
 ```
@@ -520,131 +372,11 @@ example.js:
 
 console.log(__filename); // ~/project/test/example.js
 ```
-## global
+### global
 В отличии от бразуеров, в ноде объявление глобальных переменных, например через var, будет замкнуто на область конкретного модуля. Для того, чтобы создать и использовать глобальную, для всего процесса, переменную, мы делаем `global.varName = any` и можем обращаться к ней либо как к полю объекта global, либо только по ее имени.
 
-## Buffer
+### Buffer
 Буфер - большая тема для обсуждения, но если коротко обозревать что он из себя представляет.
 
-## etc
+### etc
 Еще, глобальными объектами будет считать ключи экспорта-импорта, такие как `module`, `require`, `exports`. О них в другой раз. И таймеры, `setTimeout`, `setInterval`, которые не отличаются от таймаутов в браузере.
-
-
-
-# Задание
-
-Написать скрипт, который будет иметь функцию которая парсит входные аргументы и формурует из них объект, 
-в котором ключ объекта - имя входного аргумента, а значение по ключу - значение входного аргумента
-
-Пример
-```
-node index.js property1 value1 property2 value2
-```
-
-Должен составить объект
-```json
-{
-  "property1": "value1",
-  "property2": "value2"
-}
-```
-
-Сложность 0:
-Не учитывать типы данных - просто взять и составить объект из входных данных
-
-Сложность 1:
-
-До запуска скрипта в нем же можно указать, какие ожидаются имена аргументов и значения по умолчанию, если аргумент не задан
-
-Пример:
-
-```javascript
-const argTypes = {
-    property1: 1,
-    property2: "hello",
-    property3: false,
-}
-```
-
-
-Сложность 2:
-
-До запуска скрипта в нем же можно указать, какой ожидается тип данных у какого аргумента, прямо в самом index.js
-И функция будет Кастить входные аргументы в соответствии с этим объектом
-
-Пример:
-```javascript
-const argTypes = {
-    property1: {
-      type: "number",
-      default: 1,
-    },
-    property2: {
-      type: "string",
-      default: "hello",
-    },
-    property3: {
-      type: "boolean",
-      default: false,
-    },
-    property4: {
-      type: "object",
-      default: { hello: "world" }
-    }
-}
-```
-
-
-## Tips
-
-скрипт, чтобы вывести первый не-дефолтный входной аргумент в ноде (`process.argv` - массив):
-
-```javascript
-// index.js
-console.log(process.argv[2]);
-```
-
-Запуск:
-
-```
-node index.js hello
-```
-
-
-форматирование из примитива в примитив другого типа:
-```javascript
-const num = Number("420"); // String() Number() Boolean()
-```
-
-
-форматирование из строки в JSON и обратно:
-```javascript
-var str = '{"hello": "world"}';
-console.log(JSON.parse(str).hello);
-console.log(JSON.stringify(JSON.parse(str)));
-```
-
-доступ к свойствам объекта с помощью переменных
-```javascript
-
-const propertyName = "hello";
-
-var a = {
-  [propertyName]: "world"
-}
-
-console.log(a[propertyName]);
-
-var b = {};
-b[propertyName] = "world";
-```
-
-цикл по массиву:
-
-```javascript
-var array = [1, 2, 3];
-
-for (var i = 0; i < array.length; i++) {
-  console.log(array[i]);
-}
-```
