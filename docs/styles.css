@@ -76,3 +76,60 @@
 .modal-gray {
     background-color: #f8f8f8;
 }
+
+.modal-code { 
+    background-color: #f8f8f8;
+    padding: 0.3em 0 0.3em 1em;
+}
+
+.docsify-run-code-button,
+.docsify-run-code-button span {
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.docsify-run-code-button {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    padding: 0.30em 0.6em;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    font-size: 1em;
+    background: #808080;
+    background: var(--theme-color, #808080);
+    color: #fff;
+    opacity: 0;
+}
+
+.docsify-run-code-button span {
+    border-radius: 3px;
+    background: inherit;
+    pointer-events: none;
+}
+
+.docsify-run-code-button .error,
+.docsify-run-code-button .success {
+    position: absolute;
+    z-index: -100;
+    top: 50%;
+    left: 0;
+    padding: 0.5em 0.65em;
+    font-size: 0.825em;
+    opacity: 0;
+    transform: translate(0, -50%);
+}
+
+.docsify-run-code-button.error .error,
+.docsify-run-code-button.success .success {
+    opacity: 1;
+    transform: translate(-115%, -50%);
+}
+
+.docsify-run-code-button:focus,
+pre:hover .docsify-run-code-button {
+    opacity: 1;
+}
