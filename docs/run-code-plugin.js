@@ -6,6 +6,7 @@ console.clearBuff = function() {
 };
 console.log = function(...values) {
   console.oldLog(values);
+  values = values.map((v) => typeof v === 'undefined' ? 'undefined' : JSON.stringify(v));
   this.outputBuffer += values.join(' ') + '\n';
 };
 console.getBuffer = function() {
@@ -25,10 +26,14 @@ const modalHTML = `
       <h2>Code Runner</h2>
     </div>
     <div class="modal-body">
-      <p>Output of</p>
-      <p class="modal-gray" id="modal-code-snippet"></p>
-      <p>is</p>
-      <p class="modal-gray" id="modal-code-execution-output">result</p>
+      <p><b>Output of</b></p>
+      <div class="modal-code">
+        <p class="modal-gray" id="modal-code-snippet"></p>
+      </div>
+      <p><b>is</b></p>
+      <div class="modal-code">
+        <p class="modal-gray" id="modal-code-execution-output">result</p>
+      </div>
     </div>
     <div class="modal-footer">
       (c) JS Talks
