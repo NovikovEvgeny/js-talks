@@ -53,14 +53,34 @@
 
 [filename](declaration.js ':include :type=code :fragment=functionProtScope')
 
-asd
 
 ### eval
 Выполняет код, переданный строкой. Имеет доступ только к области видимости где был запущен. Евал несекьюрный, съест что дадут, медленный.
 
 [filename](declaration.js ':include :type=code :fragment=functionEval')
 
-фыв
+## Вызов функции
+Такой
+
+[filename](call.js ':include :type=code :fragment=direct')
+
+У прототипа Function есть метод `.apply(this, argv)`, который вызывает функцию с массивом переданных аргументов.
+
+[filename](call.js ':include :type=code :fragment=apply')
+
+Такой
+
+[filename](call.js ':include :type=code :fragment=call')
+
+Сякой
+
+[filename](call.js ':include :type=code :fragment=bind')
+
+И вот
+
+[filename](call.js ':include :type=code :fragment=bindcall')
+
+
 
 
 
