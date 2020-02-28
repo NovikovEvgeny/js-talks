@@ -3,31 +3,26 @@
 /// [emptyThisSloppy]
 global.name = 'Bob';
 
-function helloWorld() {
+function helloWorldGlobal() {
   console.log(`Hello, ${this.name}`);
 }
 
-helloWorld(); // Hello, Bob
+helloWorldGlobal();
 /// [emptyThisSloppy]
-
-// ---------
 
 /// [emptyThisStrict]
 try {
-  // IIFE
-  (function () {
+  global.name = 'Bob';
+
+  function helloWorldInStrict() {
     "use strict";
-    global.name = 'Bob';
+    console.log(`Hello, ${this.name}`);
+  }
 
-    function helloWorld() {
-      console.log(`Hello, ${this.name}`);
-    }
-
-    helloWorld();
-  })();
+  helloWorldInStrict();
 } catch (error) {
   if (error.message === 'Cannot read property \'name\' of undefined') {
-    console.log('Oopsie, error: ' + error.message); // Oopsie, error: Cannot read property 'name' of undefined
+    console.log('Oopsie, error: ' + error.message);
   } else {
     throw error;
   }
@@ -35,24 +30,35 @@ try {
 /// [emptyThisStrict]
 
 /// [bindingToObj]
+function helloWorld() {
+  console.log(`Hello, ${this.name}`);
+}
+
 const employee = {
   name: 'Alice',
 };
 
 employee.sayHello = helloWorld;
-employee.sayHello(); // Hello, Alice
+employee.sayHello();
 /// [bindingToObj]
-// -----------------------
+
 /// [bindingToObjProperty]
+function helloWorld() {
+  console.log(`Hello, ${this.name}`);
+}
 const employeeWithFunc = {
   name: 'Super Alice',
   sayHello: helloWorld,
 };
 
-employeeWithFunc.sayHello(); // Hello, Super Alice
+employeeWithFunc.sayHello();
 /// [bindingToObjProperty]
-// -----------------------
+
 /// [bindingToDifferentObjects]
+global.name = 'Bob';
+function helloWorld() {
+  console.log(`Hello, ${this.name}`);
+}
 const employee1 = {
   name: 'Alice1',
   sayHello: helloWorld,
@@ -60,56 +66,78 @@ const employee1 = {
 
 const employee2 = {
   name: 'Alice2',
-  sayHello: helloWorld,
+  helloWorld: helloWorld,
 };
 
-employee1.sayHello(); // Hello, Alice1
-employee2.sayHello(); // Hello, Alice2
+employee1.sayHello();
+employee2.helloWorld();
 /// [bindingToDifferentObjects]
-// -------------------------
+
 /// [bindingViceVersa]
 const employeeWithFuncDeclaration = {
   name: 'Super Alice In Object',
   sayHello: function () {
-    console.log('...[declaration] Hello, ' + this.name);
+    console.log('(I am from function declaration) Hello, ' + this.name);
   },
 };
 
-employeeWithFuncDeclaration.sayHello(); // ...[declaration] Hello, Super Alice In Object
+employeeWithFuncDeclaration.sayHello();
 const separateFunction = employeeWithFuncDeclaration.sayHello;
-separateFunction(); // ...[declaration] Hello, Bob
+separateFunction();
 /// [bindingViceVersa]
-// ------------------------
+
 
 /// [nestedBinding]
+function helloWorld() {
+  console.log(`Hello, ${this.name}`);
+}
+
 const department = {
   employee1: {
     name: 'Super Alice employee1',
     sayHello: function () { // we define function right in the object
-      console.log('...[declaration] Hello, ' + this.name);
+      console.log('...[function inside employee] Hello, ' + this.name);
     },
     sayHelloGlobal: helloWorld, // global function
   },
+
   sayHello: function () {
-    console.log('...[declaration] Hello, ' + this.name);
+    console.log('...[function inside department] Hello, ' + this.name);
   },
+
   name: 'some big department',
 };
 
-department.sayHello(); // ...[declaration] Hello, some big department
-department.employee1.sayHello(); // ...[declaration] Hello, Super Alice employee1
+department.sayHello();
+department.employee1.sayHello();
+department.employee1.sayHelloGlobal();
 /// [nestedBinding]
-// -----------
+
 /// [looksLikeWeLooseContext]
+global.name = 'Bob';
+function helloWorld() {
+  console.log(`Hello, ${this.name}`);
+}
+
+const someObject = {
+  name: 'some object',
+  sayHello: function () {
+    console.log('...[in someObject function declaration] Hello, ' + this.name);
+  },
+  sayHelloGlobal: helloWorld,
+};
+
 function doSomeStuff(cbFunc) {
   // some actions here
+
+  // we call callback function - common action is JS
   cbFunc(); // <-- it's just a reference to function, no this here (=default binding)
 }
 
-doSomeStuff(department.employee1.sayHello); // ...[declaration] Hello, Bob
-doSomeStuff(department.employee1.sayHelloGlobal); // Hello, Bob
+doSomeStuff(someObject.sayHello);
+doSomeStuff(someObject.sayHelloGlobal);
 /// [looksLikeWeLooseContext]
-// ------------
+
 /// [thisInCallbacks]
 const fs = require('fs');
 
@@ -135,9 +163,9 @@ function printThisColor() {
 }
 
 printThisColor();
-printThisColor.call( { color: 'green' }); // green
-printThisColor.apply( { color: 'red' }); // red
-printThisColor.bind( { color: 'black' })(); // black
+printThisColor.call({ color: 'green' });
+printThisColor.apply({ color: 'red' });
+printThisColor.bind({ color: 'black' })();
 
 // Once bound - bound forever!
 printThisColor.bind( { color: 'black' }).call({ color: 'whatever' }); // black
@@ -146,6 +174,13 @@ printThisColor.bind( { color: 'black' }).call({ color: 'whatever' }); // black
 // -------------
 /// [whyBoundForever]
 function bind(foo, contentObj, ...args) {
+  // just to understand what is "...args"
+  console.log(Array.isArray(args));
+
+  // we return new function here. This function is NOT called right here
+  // this is just a new instance of the function - when this "new function" is called,
+  // then "foo.call" happens, with hard binding to "contentObj" and
+  // first part of arguments args, second - args2
   return function (...args2) {
     foo.call(contentObj, ...args, ...args2);
   }
@@ -154,10 +189,10 @@ function bind(foo, contentObj, ...args) {
 function printThisColorWithArgs(...args) {
   console.log('color is ' + this.color + ' and args are ' + args);
 }
-const boundFunction = bind(printThisColorWithArgs, { color: 'yellow'}, 'one');
+const boundFunction = bind(printThisColorWithArgs, { color: 'yellow'}, 'one', 'two');
 
-boundFunction.call({color: 'whatever, it won\'t be used'}, 'two', 'three'); //color is yellow and args are one,two,three
-boundFunction.call({color: 'asdf' }, 'one', 'two', 'three'); // color is yellow and args are one,one,two,three
+boundFunction.call({color: 'whatever, it won\'t be used'}, 'three', 'four');
+boundFunction.call({color: 'asdf' }, 'one', 'two', 'three');
 /// [whyBoundForever]
 
 // ------------------- new binding -------------------

@@ -6,6 +6,7 @@ console.clearBuff = function() {
 };
 console.log = function(...values) {
   console.oldLog(values);
+  values = values.map(v => typeof v === 'undefined' ? 'undefined' : v);
   this.outputBuffer += values.join(' ') + '\n';
 };
 console.getBuffer = function() {
@@ -71,7 +72,7 @@ function docsifyrunCode(hook, vm) {
         const codeElm = preElm.querySelector('code');
 
         try {
-          eval(codeElm.innerText);
+          eval(codeElm.innerText.replace(/global\./g, '(typeof global !== "undefined" ? global : window).'));
         } catch (e) {
           console.outputBuffer += e;
         }

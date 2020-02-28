@@ -1,7 +1,7 @@
 - [Home](/)
 - [Data types](datatypes/)
 - [Functions](functions/functions.md)
-- [This](this/this.md)
+- [This](this/)
 - [Modules](modules/modules.md)
 - [Await](await/await.md)
 - ___
