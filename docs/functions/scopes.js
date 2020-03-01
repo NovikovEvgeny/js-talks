@@ -140,7 +140,7 @@ b = 5;
 for (var i = 0; i < 10; i++) {
   setTimeout(function() {
       console.log("callback #", i, "is fired");
-  }, i * 1000);
+  }, i * 100);
 }
 ///[example]
 
@@ -150,7 +150,7 @@ for (var i = 0; i < 10; i++) {
   const f = function(j) {
       setTimeout(function() {
         console.log("callback #", j, "is fired");
-    }, i * 1000);
+    }, i * 100);
   }
   f(i);
 }
@@ -161,7 +161,7 @@ for (var i = 0; i < 10; i++) {
   (function(j) {
       setTimeout(function() {
         console.log("callback #", j, "is fired");
-    }, i * 1000);
+    }, i * 100);
   })(i);
 }
 ///[exampleIife]
@@ -171,7 +171,7 @@ for (var i = 0; i < 10; i++) {
 for (let i = 0; i < 10; i++) {
   setTimeout(function() {
       console.log("callback #", i, "is fired");
-  }, i * 1000);
+  }, i * 100);
 }
 ///[easylife]
 
