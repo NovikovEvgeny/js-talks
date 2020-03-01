@@ -59,8 +59,6 @@
 
 При это функция при запуске будет иметь доступ только к global scope.
 
-  а че кстати если передать в функцию а то оно не пойдет в глобал скоп
-
 [filename](declaration.js ':include :type=code :fragment=functionProtScope')
 
 
