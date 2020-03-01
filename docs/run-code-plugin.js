@@ -76,7 +76,7 @@ function docsifyrunCode(hook, vm) {
         const codeElm = preElm.querySelector('code');
 
         try {
-          eval(codeElm.innerText);
+          eval(codeElm.innerText.replace(/global\./g, '(typeof global !== "undefined" ? global : window).'));
         } catch (e) {
           console.outputBuffer += e;
         }
