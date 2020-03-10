@@ -2,6 +2,7 @@
 - [Data types](datatypes/)
 - [Functions](functions/)
 - [This](this/)
+- [Node.js Event Loop](eventloop/)
 - [Modules](modules/modules.md)
 - [Await](await/await.md)
 - ___
