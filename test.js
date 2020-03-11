@@ -1,10 +1,11 @@
-function foo() {
-    let a = "outer";
+const util = require('util');
+const fs = require('fs');
 
-    for (let x = 0; x < 3; ++x) {
-        console.log(a);            // ReferenceError: a is not defined
-        let a = 27;
-    }
+const readFilePromise = util.promisify(fs.readFile);
+const a = readFilePromise('asd.html');
+try {
 
+        a.then(res => console.log(res)).catch(err => console.log('a'))
+} catch (err) {
+    console.error(error);
 }
-foo();
