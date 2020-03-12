@@ -3,6 +3,7 @@
 - [Functions](functions/)
 - [This](this/)
 - [Node.js Event Loop](eventloop/)
+- [Callbacks](callbacks/)
 - [Modules](modules/modules.md)
 - [Await](await/await.md)
 - ___
