@@ -7,8 +7,8 @@
 - [Scope, Hoisting, Closure](./functions/README.md)
 - [This](./this/README.md)
 - [Event Loop and how Node.js works](./eventloop/README.md)
-- JS Async and callback
+- [Callbacks](./callbacks/README.md)
 - JS Async and promise/await
-- Modules
-- Event loop
+- node Modules
+- npm packages
 ... tbd
