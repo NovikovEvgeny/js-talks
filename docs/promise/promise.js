@@ -1,3 +1,30 @@
+///[ruleResolve]
+const promise = new Promise((res, rej) => {
+    return 'a';
+});
+// Promise { <pending> }
+promise
+    .then(res => console.log(res))
+    .catch(res => console.log(res));
+///[ruleResolve]
+
+
+///[ruleReject]
+const promise = new Promise((res, rej) => {
+    reject('error');
+    throw new Error('error');
+});
+// Promise { <rejected> }
+promise
+    .then(res => console.log(res))
+    .catch(res => console.log(res));
+///[ruleReject]
+
+
+
+
+
+
 ///[synt]
 const myPromise = new Promise((resolve, reject) => {
     const name = null;
