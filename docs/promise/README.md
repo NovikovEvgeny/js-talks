@@ -68,8 +68,12 @@ Promisify
 
 [filename](promise.js ':include :type=code :fragment=promisify')
 
-Live-coding
+## Live-coding
 
-[filename](livecoding.js)
+[filename](livecoding.js ':include :type=code')
+
+## Presentation
+
+* [PowerPoint presentation on Task/Microtask queues](https://raw.githubusercontent.com/NovikovEvgeny/js-talks/master/docs/promise/Job_Task_Microtask_queues.pptm)
 
 .
