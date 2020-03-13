@@ -4,7 +4,6 @@
 - [This](this/)
 - [Node.js Event Loop](eventloop/)
 - [Callbacks](callbacks/)
-- [Modules](modules/modules.md)
-- [Await](await/await.md)
+- [Promises](promise/)
 - ___
 - [Homework](homework/)
