@@ -6,5 +6,6 @@
 - [Callbacks](callbacks/)
 - [Promises](promise/)
 - [Generators](generators/)
+- [Async/Await](async-await/)
 - ___
 - [Homework](homework/)
