@@ -5,5 +5,6 @@
 - [Node.js Event Loop](eventloop/)
 - [Callbacks](callbacks/)
 - [Promises](promise/)
+- [Generators](generators/)
 - ___
 - [Homework](homework/)
