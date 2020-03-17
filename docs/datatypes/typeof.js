@@ -1,4 +1,5 @@
 /// [typeofPrimitives]
+/*nodejs-runkit*/
 // typeof <primitive>
 console.log(typeof 148 === "number");
 console.log(typeof "148" === "string");
@@ -8,12 +9,14 @@ console.log(typeof BigInt(22) === 'bigint');
 /// [typeofPrimitives]
 // -----
 /// [typeofNull]
+/*nodejs-runkit*/
 // BUT
 // yeah, don't use "typeof" for null values
 console.log(typeof null === "object");  // lol, because it's JS
 /// [typeofNull]
 // ------
 /// [typeofObject]
+/*nodejs-runkit*/
 // Build-in "Natives"
 console.log(typeof { hello: "world" } === "object");
 console.log(typeof [1, 2, 3] === "object");
@@ -24,11 +27,13 @@ console.log(typeof /.*/ === "object");
 /// [typeofObject]
 // ---
 /// [typeofFunction]
+/*nodejs-runkit*/
 // BUT
 console.log(typeof function() {console.log('hi!')} === "function");  // lol, why not
 /// [typeofFunction]
 //---
 /// [typeofUndefined]
+/*nodejs-runkit*/
 console.log(typeof undefinedVal); // undefined
 console.log(undefinedVal); // ReferenceError: undefinedVal is not defined
 /// [typeofUndefined]
