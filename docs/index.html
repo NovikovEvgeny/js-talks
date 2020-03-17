@@ -7,22 +7,32 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
-  <link rel="stylesheet" href="./styles.css">
+<!--  <link rel="stylesheet" href="./styles.css">-->
 </head>
 <body>
   <div id="app"></div>
   <script>
     window.$docsify = {
       name: 'JS ?_?',
-      repo: '',
-
+      repo: 'https://github.wdf.sap.corp/srch-hana-core/srch-core-crawler',
+      auto2top: true,
       loadSidebar: true,
-      subMaxLevel: 4,
+      loadNavbar: true,
+      mergeNavbar: true,
+      subMaxLevel: 3,
 
+      relativePath: true,
+      pagination: {
+        crossChapter: true,
+      },
   }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
-  <script src="//unpkg.com/docsify-copy-code"></script>
-  <script src="./run-code-plugin.js"></script>
+<!--  <script src="//unpkg.com/docsify-copy-code"></script>-->
+<!--  <script src="./run-code-plugin.js"></script>-->
+  <script src="https://embed.runkit.com"></script>
+  <script src="./runkit-nodejs-plugin.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+
 </body>
 </html>
