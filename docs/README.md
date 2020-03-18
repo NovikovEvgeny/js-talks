@@ -9,10 +9,12 @@
 - [Event Loop and how Node.js works](./eventloop/README.md)
 - [Callbacks](./callbacks/README.md)
 - [Promise](./promise/README.md)
-- async/await & generators
+- [Generators](./generators/README.md)
+- [Async/Await](./async-await/README.md)
 - eventEmitter & child_process
 - node module system & ecma module system
 - npm
 - typescript
 - testing
+
 ... tbd
