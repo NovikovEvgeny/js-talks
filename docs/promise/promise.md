@@ -38,8 +38,15 @@ new Promise(function)
 
 Результат выполнения промиса можно получить только используя обработчики `PromiseFulfillReactions, PromiseRejectReactions`. Назначаются они функциями `.then()`, `.catch()`, `.finally()`. 
 
-[filename](promise.js ':include :type=code :fragment=then')
+```
+.then(onFulfilled, onRejected)
 
+.then(name => console.log(name), error => console.error(error));
+
+.then(null, error => console.error(error));
+
+.catch(error => console.error(error));
+```
 
 
 Обработка реакций:
@@ -67,13 +74,3 @@ reject или resolve не выходят из тела функции
 Promisify
 
 [filename](promise.js ':include :type=code :fragment=promisify')
-
-## Live-coding
-
-[filename](livecoding.js ':include :type=code')
-
-## Presentation
-
-* [PowerPoint presentation on Task/Microtask queues](https://raw.githubusercontent.com/NovikovEvgeny/js-talks/master/docs/promise/Job_Task_Microtask_queues.pptm)
-
-.
