@@ -1,0 +1,6 @@
+- [Functions](./functions.md)
+- [Function declarations](./declaration.md)
+- [Function calls](./call.md)
+- [Scope](./scopes.md)
+- [Hoisting](./hoisting.md)
+- [Closure](./closure.md)
