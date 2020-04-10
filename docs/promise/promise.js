@@ -1,6 +1,6 @@
 ///[ruleResolve]
-const promise = new Promise((res, rej) => {
-    return 'a';
+const promise = new Promise((resolve, reject) => {
+    resolve('a');
 });
 // Promise { <pending> }
 promise
@@ -50,17 +50,6 @@ myPromise
 const namePromise = getPromise('Alice');
 namePromise.then(name => console.log(name));
 ///[synt]
-
-
-///[then]
-.then(onFulfilled, onRejected)
-
-.then(name => console.log(name), error => console.error(error));
-
-.then(null, error => console.error(error));
-
-.catch(error => console.error(error));
-///[then]
 
 
 ///[noreturn]

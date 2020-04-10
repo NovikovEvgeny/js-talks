@@ -2,15 +2,15 @@
 
 ## Программа
 
-- [Datatypes](./datatypes/README.md)
-- [Functions](./functions/README.md)
-- [Scope, Hoisting, Closure](./functions/README.md)
-- [This](./this/README.md)
-- [Event Loop and how Node.js works](./eventloop/README.md)
-- [Callbacks](./callbacks/README.md)
-- [Promise](./promise/README.md)
-- [Generators](./generators/README.md)
-- [Async/Await](./async-await/README.md)
+- [Data types](datatypes/datatypes.md)
+- [Functions](./functions/functions.md)
+- [Scope, Hoisting, Closure](./functions/functions.md)
+- [This](./this/this.md)
+- [Event Loop and how Node.js works](./eventloop/eventloop.md)
+- [Callbacks](./callbacks/callbacks.md)
+- [Promise](./promise/promise.md)
+- [Generators](./generators/generators.md)
+- [Async/Await](./async-await/asyncawait.md)
 - eventEmitter & child_process
 - node module system & ecma module system
 - npm
