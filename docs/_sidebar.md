@@ -7,5 +7,6 @@
 - [Promises](promise/promise.md)
 - [Generators](generators/generators.md)
 - [Async/Await](async-await/asyncawait.md)
+- [EventEmitter](eventemitter/eventemitter.md)
 - ___
 - [Homework](homework/)
