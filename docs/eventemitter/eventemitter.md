@@ -1,0 +1,43 @@
+# EventEmitter
+
+## Что это такое и зачем это нужно
+EventEmitter - класс, который позволяет посылать сигналы и вешать обработчики на эти сигналы. Использование событий позволяет строить приложение не как череду последовательных операций, а блоки, одни из которых, по результатам выполнения посылают данные, а другие, обработчики результатов, запускают после получения сигнала.
+
+## API
+Базовые функции - `.emit(message)` и `.on(event, callback)`.
+
+[filename](events.js ':include :type=code :fragment=emitter')
+
+### .on
+- Срабатывают в порядке добавления;
+- Работают синхронно;
+
+[filename](events.js ':include :type=code :fragment=sync')
+
+Можно заставить его работать асинхронно используя `setTimeout` или `setImmediate`
+
+[filename](events.js ':include :type=code :fragment=async')
+
+
+### .once
+- Сработает один раз и удалится из `listeners`.
+
+[filename](events.js ':include :type=code :fragment=once')
+
+Почему он важен? У `EventEmitter` есть максимальное количество слушателей объекта, по дефолту - 10, можно получить с помощью функции `.getMaxListeres()` и установить с помощью функции `.setMaxListeners(n)`.
+
+### .setMaxListeners
+
+[filename](events.js ':include :type=code :fragment=maxListeners')
+
+### .prependListener .prependOnceListener
+При необходимости добавить слушатель в начало списка используются функции `.prependListener(event, callbac)` и `.prependOnceListener(event, callback)`.
+
+[filename](events.js ':include :type=code :fragment=prepend')
+
+### .removeListener .off
+Убирает один объект из массива `listeners`.
+
+[filename](events.js ':include :type=code :fragment=remove')
+
+asd
