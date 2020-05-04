@@ -11,7 +11,8 @@
 - [Promise](./promise/promise.md)
 - [Generators](./generators/generators.md)
 - [Async/Await](./async-await/asyncawait.md)
-- eventEmitter & child_process
+- [Event emitter](./eventemitter/eventemitter.md)
+- [Child process](./childprocess/childprocess.md)
 - node module system & ecma module system
 - npm
 - typescript

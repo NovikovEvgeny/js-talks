@@ -45,8 +45,3 @@
 - Взаимодействие с помощью event
 
 [filename](childprocess.js ':include :type=code :fragment=fork')
-
-## Так, ну и зачем?
-
-Отделение тяжелых, блокирующих операций.
-
