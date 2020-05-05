@@ -9,5 +9,6 @@
 - [Async/Await](async-await/asyncawait.md)
 - [EventEmitter](eventemitter/eventemitter.md)
 - [Child processes](childprocess/childprocess.md)
+- [node module system & ecma module system](./node-modules/node_modules.md)
 - ___
 - [Homework](homework/)
