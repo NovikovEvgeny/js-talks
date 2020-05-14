@@ -1,5 +1,9 @@
+console.log('FIRST LINE OF CJS MODULE');
+
+const a = require('./myModule');
+
 function foo() {
-    console.log('foo');
+    console.log('foo CJS');
 }
 
 function bar() {

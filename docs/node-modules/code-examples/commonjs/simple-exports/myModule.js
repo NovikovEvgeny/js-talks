@@ -5,4 +5,4 @@ setTimeout(() => {
     module.exports.bla = function () {
         console.log('lol');
     }
-});
+}, 5);

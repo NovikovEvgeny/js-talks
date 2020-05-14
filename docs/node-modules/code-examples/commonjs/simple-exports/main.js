@@ -8,4 +8,4 @@ console.log(m);
 setTimeout(() => {
     m.bla();
     console.log(m);
-}, 1000)
+}, 1000);
