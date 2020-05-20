@@ -2,5 +2,5 @@
 
 const sw = require('./index');
 
-sw.sayHi(process.argv[2]);
+sw.sayHi(2, process.argv[2]);
 

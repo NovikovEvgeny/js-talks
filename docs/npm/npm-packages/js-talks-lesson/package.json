@@ -1,0 +1,31 @@
+{
+  "name": "js-talks-lesson",
+  "version": "2.0.2",
+  "description": "Some cool module",
+  "main": "index.js",
+  "scripts": {
+    "install": "node install.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovikovEvgeny/js-talks.git"
+  },
+  "bin": {
+    "js-talks-lesson": "./global.js"
+  },
+  "keywords": [
+    "npm",
+    "demo",
+    "lesson",
+    "js"
+  ],
+  "author": "Vasya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NovikovEvgeny/js-talks/issues"
+  },
+  "homepage": "https://github.com/NovikovEvgeny/js-talks#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.4"
+  }
+}

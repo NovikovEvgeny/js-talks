@@ -10,5 +10,6 @@
 - [EventEmitter](eventemitter/eventemitter.md)
 - [Child processes](childprocess/childprocess.md)
 - [node module system & ecma module system](./node-modules/node_modules.md)
+- [npm](./npm/npm.md)
 - ___
 - [Homework](homework/)
