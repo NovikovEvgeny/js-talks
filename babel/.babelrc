@@ -1,5 +1,0 @@
-{
-  "sourceMaps": true,
-  "retainLines": true,
-  "plugins": ["@babel/plugin-proposal-optional-chaining"]
-}
