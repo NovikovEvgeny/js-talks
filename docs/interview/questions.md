@@ -2,19 +2,20 @@
 
 
 1.	What is JS and what is Node.js
-0.	Datatypes in JS. `undefined` vs `null`. typeof. Boxing
+0.	Datatypes in JS. `undefined` vs `null`. typeof. Boxing. ([task](./t_dt.md#1))
 0.	Coercion. Truthy and falsy values. `==` vs `===`
-7.	Передача значения по ссылке и по значению
+7.	Передача значения по ссылке и по значению ([task](./t_rv.md))
 8.	Функции. Function declaration vs function expression. 
-0.  Области видимости. Hoisting.
-0.	Что такое замыкания, что такое this.
+0.  Области видимости.  ([task](./t_s.md)) Hoisting.  ([task](./t_h.md))
+0.	Что такое замыкания  ([task](./t_cl.md)), что такое this. ([task](./t_th.md))
 0.	.bind .call .apply
+0.	Классы. ([task](./t_cla.md))
 0.	Концепция асинхронности. Отличие от многопоточности?
 0.	Сколько потоков в JS, а сколько в Node.js
 0.	Что такое callback, Promise, async/await
 0.	[**Опционально**] когда не рационально использовать асинк вместо промисов (Например, нужно два действия параллельно выполнить - два независимых друг от друга запроса)
 0.	Как на промисах реализовать «параллельные» запросы? `Promise.all()`, `Promice.race()`, `Promise.any()`, `Promise.allSettled()`, чем отличаются
-0.	Event loop. Как он работает. `setTimeout(0), setImmediate(), process.nextTick()`. Как будут выполняться.
+0.	Event loop. Как он работает. `setTimeout(0), setImmediate(), process.nextTick()`. Как будут выполняться.  ([task](./t_as.md))
 
 0.	[**TBD**] корные библиотеки ноды.
 0.	ES6. Какие изменения из него самые важные, кроме промисов. Конст/лет/вар. Arrow functions. Деструктуризация, рест/спред операторы.
