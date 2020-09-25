@@ -6,3 +6,6 @@
 - [6](./t_th.md)
 - [7](./t_cla.md)
 - [8](./t_as.md)
+- [9](./t_promise.md)
+- [10](./t_a_a.md)
+- [11](./t_event_e.md)
