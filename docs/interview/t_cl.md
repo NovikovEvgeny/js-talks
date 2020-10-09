@@ -4,7 +4,8 @@
 function makeCounter() {
   let count = 0;
   return function() {
-    return count++;
+    count++;
+    return count;
   };
 }
 let counter1 = makeCounter();

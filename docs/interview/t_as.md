@@ -36,7 +36,6 @@ try {
 ```javascript
 let counter = 0;
 while (true) {
-   counter = 0;
    setTimeout(() => {
       counter++
       console.log(counter);

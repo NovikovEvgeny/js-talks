@@ -11,7 +11,8 @@ function callTaxi() {
   };
 }
 
-callTaxi();
+const taxi = callTaxi();
+console.log(taxi);
 ```
 
 ```javascript
