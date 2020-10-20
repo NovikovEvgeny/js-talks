@@ -36,3 +36,14 @@ function printRest(a, b, ...rest) {
 
 printRest(1, 2, 3, 4, 5);
 ```
+
+
+```javascript
+
+function getMaximumFromArray(arr) {
+    return [...arr].sort((a, b) => b - a).slice(0, 1)[0];
+}
+
+const max = getMaximumFromArray([4, 5, 1, 23, 9999]);
+console.log(max);
+```
