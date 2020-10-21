@@ -1,5 +1,4 @@
 /// [typeofPrimitives]
-// typeof <primitive>
 console.log(typeof 148 === "number");
 console.log(typeof "148" === "string");
 console.log(typeof true === "boolean");
@@ -36,7 +35,6 @@ console.log(typeof function() {console.log('hi!')} === "function");  // lol, why
 //---
 
 /// [typeofUndefined]
-/*nodejs-runkit*/
 console.log(typeof undefinedVal); // undefined
 console.log(undefinedVal); // ReferenceError: undefinedVal is not defined
 /// [typeofUndefined]
