@@ -8,4 +8,5 @@
 - [8](./t_as.md)
 - [9](./t_promise.md)
 - [10](./t_a_a.md)
-- [11](./t_event_e.md)
+- [11](./t_modules.md)
+- [12](./t_event_e.md)
