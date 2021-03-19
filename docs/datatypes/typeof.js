@@ -38,3 +38,17 @@ console.log(typeof function() {console.log('hi!')} === "function");  // lol, why
 console.log(typeof undefinedVal); // undefined
 console.log(undefinedVal); // ReferenceError: undefinedVal is not defined
 /// [typeofUndefined]
+
+//---
+
+/// [typeofDifferentTypesInASingleVariable]
+let myVar; 
+console.log(typeof myVar);
+myVar = 5;
+console.log(typeof myVar);
+myVar = 'hello';
+console.log(typeof myVar);
+myVar = { hello: "world" };
+console.log(typeof myVar);
+/// [typeofDifferentTypesInASingleVariable]
+

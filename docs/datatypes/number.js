@@ -31,10 +31,26 @@ console.log(NaN < 100);
 console.log(NaN > 100);
 console.log(NaN == 100);
 console.log(NaN === 100);
+/// [NaNCompare]
+// ----
+/// [NaNCompareToItself]
 // even not equal to itself
 console.log(NaN == NaN);
 console.log(NaN === NaN);
-/// [NaNCompare]
+/// [NaNCompareToItself]
+// ----
+/// [isNaN]
+const x = NaN;
+// expected behavior
+console.log(Number.isNaN(x));
+console.log(Number.isNaN(undefined));
+console.log(Number.isNaN({}));
+
+// tricky behavior
+console.log(isNaN(x));
+console.log(isNaN(undefined));
+console.log(isNaN({}));
+/// [isNaN]
 // ----
 /// [Infinity]
 let infinityValue = Number.MAX_VALUE;

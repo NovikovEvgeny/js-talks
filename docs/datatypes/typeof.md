@@ -1,6 +1,6 @@
 # typeof
 
-Тип переменной можно определить с помощью оператора `typeof`. Он возвращает **строку**.
+Тип значения, которое в данный момент лежит в переменной можно определить с помощью оператора `typeof`. Он возвращает **строку**.
 
 **Определение типа для примитивов**:
 
@@ -20,6 +20,10 @@ object
 
 [filename](typeof.js ':include :type=code :fragment=typeofFunction')
 
-> `typeof` можно применять к **необъявленным** переменным:
+> `typeof` можно применять к **необъявленным** переменным (интересно, зачем):
 
 [filename](typeof.js ':include :type=code :fragment=typeofUndefined')
+
+!> с помощью `typeof` мы определяем именно тип значения "скрывающегося" за переменной, а **не тип переменной**, т.к. в JS динамическая типизация
+
+[filename](typeof.js ':include :type=code :fragment=typeofDifferentTypesInASingleVariable')

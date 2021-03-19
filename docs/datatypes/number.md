@@ -10,6 +10,9 @@
 
 [filename](number.js ':include :type=code :fragment=howToDefine')
 
+?> Начиная с ECMAScript 2021, стандарт поддерживает "separators for numeric literals":
+`const a = 1_562_352`
+
 Ещё есть шестнадцатиричная форма записи (`0xFF` = 255), двоичная (`0b111` = 7), восьмеричная (`0o377` = 255).
 Как видно, маска для записи таких чисел: `0<symbol><actualNumber>`, где `<symbol>` - `x`, `b` или `o`, а затем
 идет запись числа в N-ричном формате
@@ -33,6 +36,14 @@
 Так что это скорее не "не число", а "значение, при приведении которого к number возникла ошибка"
 
 [filename](number.js ':include :type=code :fragment=NaNCompare')
+
+`NaN` Даже не равен самому себе
+
+[filename](number.js ':include :type=code :fragment=NaNCompare')
+
+Как же тогда проверять, что какое-то значение есть `NaN`? Используйте `Number.isNaN()` (**не** `isNaN()`! Она имеет свои особенности!)
+
+[filename](number.js ':include :type=code :fragment=isNaN')
 
 ## Чуть менее любимое число
 
