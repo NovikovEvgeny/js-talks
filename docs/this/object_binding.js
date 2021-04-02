@@ -118,8 +118,8 @@ const fsReaderEventsHandler = {
     }
 };
 
-// fs.readdir(fsReaderEventsHandler.dir, fsReaderEventsHandler.done); // Reading of directory undefined is finished Object [global]
+fs.readdir(fsReaderEventsHandler.dir, fsReaderEventsHandler.done); // Reading of directory undefined is finished Object [global]
 
 // hey, some functions could even set its own this!
-// setTimeout(fsReaderEventsHandler.done, 1); // Reading of directory undefined is finished Timeout {...}
+setTimeout(fsReaderEventsHandler.done, 1); // Reading of directory undefined is finished Timeout {...}
 /// [thisInCallbacks]
