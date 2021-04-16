@@ -60,15 +60,27 @@ new Promise(function)
 
 [filename](promise.js ':include :type=code :fragment=synt')
 
+`.then()` можно использовать единожды для обработки И успешного результата, И ошибки, если передать 2 аргумента-функции (первый - хендлер удачного результата, второй - ошибки)
+
+
+[filename](promise.js ':include :type=code :fragment=thenBoth')
 
 
 try-catch не работает снаружи промиса
 
 [filename](promise.js ':include :type=code :fragment=try')
 
-return в **хэндлерах** всегда вернет новый промис
+return в **хэндлерах** всегда вернет новый промис. Это позволяет выполнять цепочки промисов (chaining)
 
 [filename](promise.js ':include :type=code :fragment=chain')
+
+Даже `.catch()` возвращает новый промис, что дает возможность обрабатывать ошибки прямо в середине цепочки:
+
+[filename](promise.js ':include :type=code :fragment=chainWithCatchInTheMiddle')
+
+Но, чаще всего, почему то любят вещать один `.catch` на всю цепочку:
+
+[filename](promise.js ':include :type=code :fragment=chainWithCatchInTheEnd')
 
 вызов методов `reject()` или `resolve()` не выходят из тела функции-екзекьютора, которая была передана в конструктор
 

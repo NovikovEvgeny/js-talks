@@ -80,6 +80,24 @@ const namePromise = getPromise('Alice');
 namePromise.then(name => console.log(name));
 ///[synt]
 
+///[thenBoth]
+
+function getPromiseResRef(shouldResolve) {
+  return new Promise((resolve, reject) => {
+    if (shouldResolve) {
+      return resolve('Good');
+    }
+    reject ('Bad');
+  });
+}
+
+getPromiseResRef(true)
+  .then((result) => console.log('Fulfilled! (1)', result), (err) => console.log('Rejected! (1)', err));
+
+getPromiseResRef(false)
+  .then((result) => console.log('Fulfilled! (2)', result), (err) => console.log('Rejected! (2)', err));
+
+///[thenBoth]
 
 ///[try]
 const util = require('util');
@@ -107,6 +125,39 @@ promise
   })
   .then(res => console.log(res));
 ///[chain]
+
+
+///[chainWithCatchInTheMiddle]
+const promise = new Promise((resolve, reject) => {
+	resolve(5);
+});
+
+promise
+  .then(res => {
+    throw new Error('my cool error');
+  })
+  .catch(err => {
+    console.error("Catched in the middle:", err, "will return some string instead and proceed the chain");
+    return 'good value processed after error';
+  })
+  .then(res => console.log(res))
+  .catch(err => console.log('this will never happen in our core'));
+///[chainWithCatchInTheMiddle]
+
+
+///[chainWithCatchInTheEnd]
+const promise = new Promise((resolve, reject) => {
+	resolve(5);
+});
+
+promise
+  .then(res => {
+    throw new Error('my cool error');
+  })
+  .then(res => console.log('and now THIS will never happen in our core, since we removed middle-catch'))
+  .catch(err => console.error(err));
+///[chainWithCatchInTheEnd]
+
 
 ///[noreturn]
 const fs = require('fs');
