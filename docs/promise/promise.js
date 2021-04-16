@@ -2,7 +2,7 @@
 const promise = new Promise((resolve, reject) => {
     resolve('a');
 });
-// Promise { <pending> }
+// Promise { &lt;pending&gt; }
 promise
     .then(res => console.log(res))
     .catch(res => console.log(res));
@@ -10,11 +10,11 @@ promise
 
 
 ///[ruleReject]
-const promise = new Promise((res, rej) => {
+const promise = new Promise((resolve, reject) => {
     reject('error');
     throw new Error('error');
 });
-// Promise { <rejected> }
+// Promise { &lt;rejected&gt; }
 promise
     .then(res => console.log(res))
     .catch(res => console.log(res));
@@ -55,6 +55,8 @@ namePromise.then(name => console.log(name));
 ///[noreturn]
 const fs = require('fs');
 
+const fileName = '1.txt';
+
 fs.readFile(fileName, (err, content) => {
   if (err) {
     reject(err);
@@ -93,8 +95,15 @@ promise
 ///[all]
 const data = [{id:1}, {id:2}];
 
+function store(item){
+	return new Promise((resolve, reject) => {
+		//save item somewhere
+		setTimeout(resolve, Math.random()*1000);
+	});
+}
+
 for (let i = 0; i < data.length; i++) {
-	store(data[0])
+	store(data[i])
 	  .then(() => console.log('Success'))
 	  .catch((err) => console.log(err));
 }
@@ -134,6 +143,6 @@ function readFileProperlyPromise(fileName) {
   });
 }
 
-const myPromise = readFileProperlyPromise('fileA.txt');
+const myPromise = readFileProperlyPromise('package.json');
 
 ///[promisify]
