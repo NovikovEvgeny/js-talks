@@ -2,36 +2,65 @@
 const promise = new Promise((resolve, reject) => {
     resolve('a');
 });
-// Promise { &lt;pending&gt; }
+
 promise
-    .then(res => console.log(res))
-    .catch(res => console.log(res));
+    .then(res => console.log("Fullfilled! :)", res))
+    .catch(res => console.error("Rejected! :(", res));
 ///[ruleResolve]
 
-
-///[ruleReject]
+///[rulePendingForever]
 const promise = new Promise((resolve, reject) => {
-    reject('error');
-    throw new Error('error');
+  for (let i = 0; i < 3; i++) {
+    console.log(i);
+  }
+  // Forgot to call "resolve" or "reject!"
+  return 'some data! but it will be always ignored';
 });
-// Promise { &lt;rejected&gt; }
-promise
-    .then(res => console.log(res))
-    .catch(res => console.log(res));
-///[ruleReject]
 
+promise
+  .then(res => console.log("Fullfilled! :)", res))
+  .catch(res => console.error("Rejected! :(", res));
+///[rulePendingForever]
+
+
+///[ruleRejectWithReject]
+const promiseWithReject = new Promise((resolve, reject) => {
+    reject('error message (string)');
+});
+
+promiseWithReject
+    .then(res => console.log("Fullfilled! (1) :)", res))
+    .catch(res => console.error("Rejected! (1) :(", res));
+
+promiseWithReject; // Promise { &lt;rejected&lt; }
+///[ruleRejectWithReject]
+
+
+///[ruleRejectWithThrow]
+const promiseWithThrowError = new Promise((resolve, reject) => {
+  throw new Error('error message (inside Error object)');
+});
+
+promiseWithThrowError
+  .then(res => console.log("Fullfilled! (2) :)", res))
+  .catch(res => console.error("Rejected! (2) :(", res));
+
+promiseWithThrowError; // Promise { &lt;rejected&gt; }
+///[ruleRejectWithThrow]
 
 ///[synt]
+// single promise. Created once and will never change it's status
 const myPromise = new Promise((resolve, reject) => {
     const name = null;
 
     if (!name) {
-        reject(new Error('No name'))
+        reject(new Error('No name'));
     }
 
     resolve(name);
 });
 
+// Will create new promise every call
 function getPromise(name) {
     return new Promise((resolve, reject) => {
         if(!name) {
@@ -52,21 +81,6 @@ namePromise.then(name => console.log(name));
 ///[synt]
 
 
-///[noreturn]
-const fs = require('fs');
-
-const fileName = '1.txt';
-
-fs.readFile(fileName, (err, content) => {
-  if (err) {
-    reject(err);
-  }
-  console.log('sdf');
-  resolve(content);
-})
-///[noreturn]
-
-
 ///[try]
 const util = require('util');
 const fs = require('fs');
@@ -75,22 +89,46 @@ const readFilePromise = util.promisify(fs.readFile);
 
 try {
 	readFilePromise('filename')
-	  .then(res => console.log(res));
+	  .then(res => console.log("Resolved! :) ", res));
 } catch (err) {
+  console.log("We'll never get here");
 	console.error(error);
 }
 ///[try]
 
-
 ///[chain]
 const promise = new Promise((resolve, reject) => {
 	resolve(5);
-})
+});
 
 promise
-  .then(res => res + 10)
+  .then(res => { // or .then(res => res + 10)
+    return res + 10;
+  })
   .then(res => console.log(res));
 ///[chain]
+
+///[noreturn]
+const fs = require('fs');
+
+const fileName = 'file_name_that_does_not_exist.txt';
+
+const promise = new Promise((resolve, reject) => {
+  fs.readFile(fileName, (err, content) => {
+    if (err) {
+      console.log('inside if');
+      reject(err);
+    }
+    console.log('promise is already rejected, but code is still being executed');
+    resolve(content);
+  });
+});
+
+promise
+    .then(res => console.log("Fullfilled! :)", res))
+    .catch(res => console.error("Rejected! :(", res));
+///[noreturn]
+
 
 ///[all]
 const data = [{id:1}, {id:2}];
@@ -111,6 +149,13 @@ for (let i = 0; i < data.length; i++) {
 const promises = data.map((item) => store(item));
 
 Promise.all(promises);
+Promise.race(promises);
+
+// Since Node.js v12
+Promise.allSettled(promises);
+
+// Since Node.js v15
+Promise.any(promises);
 ///[all]
 
 
@@ -118,7 +163,7 @@ Promise.all(promises);
 const fs = require('fs');
 
 function readFileProperly(fileName, cb) {
-  fs.readFile(fileName.replace('\r\n', ''), (err, content) => {
+  fs.readFile(fileName.replace('\r\n', '', (err, content) => {
     if (err) {
       return cb(err);
       // return;
