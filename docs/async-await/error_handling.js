@@ -43,3 +43,56 @@ async function foo() {
 
 foo();
 /// [catchAnyError]
+
+/// [throwError]
+async function asyncFunctionThrows() {
+    throw new Error('some error happened');
+}
+
+async function foo() {
+    try {
+        const res = asyncFunctionThrows();
+    } catch (e) {
+        console.log('Error!');
+        console.log(e);
+    }
+}
+
+foo();
+/// [throwError]
+
+/// [throwErrorReturn]
+async function asyncFunctionThrows() {
+    throw new Error('some error happened');
+    console.log("this will never happen");
+}
+
+async function foo() {
+    try {
+        const res = asyncFunctionThrows();
+    } catch (e) {
+        console.log('Error!');
+        console.log(e);
+    }
+}
+
+foo();
+/// [throwErrorReturn]
+
+/// [throwErrorPromise]
+async function asyncFunctionThrows() {
+    return Promise.reject("some error happened");
+    console.log("this will never happen");
+}
+
+async function foo() {
+    try {
+        const res = asyncFunctionThrows();
+    } catch (e) {
+        console.log('Error!');
+        console.log(e);
+    }
+}
+
+foo();
+/// [throwErrorPromise]

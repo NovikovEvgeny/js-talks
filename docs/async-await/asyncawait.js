@@ -2,7 +2,18 @@
 async function iAmAsyncFunction() {
     return 5;
 }
+
+const myPromise = iAmAsyncFunction();
+myPromise;
 /// [declaration]
+
+/// [declarationEmpty]
+async function iAmAsyncFunction() {
+}
+const myPromise = iAmAsyncFunction();
+myPromise;
+/// [declarationEmpty]
+
 
 /// [declarationAndCall]
 async function iAmAsyncFunction() {
