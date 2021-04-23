@@ -74,7 +74,5 @@ const bestMovies = {
 for(const movie of bestMovies) console.log(movie);
 
 console.log(...bestMovies);
-
-console.log(bestMovies.map(movie => movie.name));
 /// [iterableExample]
 
