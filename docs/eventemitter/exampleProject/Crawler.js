@@ -1,13 +1,7 @@
 const {readdirSync, lstatSync} = require('fs');
-const {resolve, join} = require('path');
-const EventEmitter = require('events');
+const {join} = require('path');
 
-class Crawler extends EventEmitter {
-
-    constructor() {
-        super();
-    }
-
+class Crawler {
     readDir(path, fileArr = []) {
         const files = readdirSync(path);
 
