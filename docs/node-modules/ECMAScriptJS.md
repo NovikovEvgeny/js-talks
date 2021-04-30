@@ -152,20 +152,3 @@ TypeError: unexisingVariable is not a function
 ```
 
 это будет runtime-ошибкой во время выполнения кода в main.js
-
-## Import CJS modules
-
-Чтобы заимпортить файл, написанный в CommonJS формате, есть только один путь: заимпортировать 
-целиком модуль. Никакой деструктуризации не выйдет.
-
-```javascript
-import wholeModule from './cjsModule';
-wholeModule.foo();
-```
-
-```javascript
-import { foo } from './cjsModule';
-foo();
-```
-
-Не сработает!

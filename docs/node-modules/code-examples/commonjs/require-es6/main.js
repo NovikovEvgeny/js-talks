@@ -1,12 +1,17 @@
 // main.js
-const someFile = require('./myModule');
-someFile.foo();
-someFile.bar();
+const someModule = require('./myModule');
+someModule.foo();
+someModule.bar();
 
-const fooCustom = require('./myModule').foo; // pls no. Only if you need to "rename" function
-fooCustom();
+const someModule2 = require('./myModule');
+const { foo, bar } = someModule2;
+foo();
+bar();
 
-
+// ---
 const { foo, bar } = require('./myModule');
 foo();
 bar();
+
+const fooCustom = require('./myModule').foo; // pls no. Only if you need to "rename" function
+fooCustom();

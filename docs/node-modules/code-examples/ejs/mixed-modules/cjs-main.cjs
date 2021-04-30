@@ -1,6 +1,6 @@
 console.log('FIRST LINE OF THE CJS MODULE');
 
-const a = require('./myModule');
+// const a = require('./myModule.mjs');
 
 function foo() {
     console.log('foo CJS');

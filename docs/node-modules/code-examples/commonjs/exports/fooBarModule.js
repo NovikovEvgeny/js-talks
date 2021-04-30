@@ -21,8 +21,8 @@ module.exports.bar = bar;
 //
 // // !!!DONT DO LIKE THIS!!! you override a reference here!
 // exports = {
-//     foo: foo,
-//     bar: bar,
+    // foo: foo,
+    // bar: bar,
 // };
 //
 // console.log(exports === module.exports);

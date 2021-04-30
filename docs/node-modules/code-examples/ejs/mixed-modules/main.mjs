@@ -5,5 +5,6 @@ process.nextTick(() => {
 // import { foo } from './myModule.js';
 // foo();
 
-import wholeModule from './cjs-main.cjs';
-wholeModule.foo();
+import { foo } from './cjs-main.cjs';
+// wholeModule.foo();
+foo();
