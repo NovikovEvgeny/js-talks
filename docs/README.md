@@ -4,7 +4,7 @@
 
 - [Data types](datatypes/datatypes.md)
 - [Functions](./functions/functions.md)
-- [Scope, Hoisting, Closure](./functions/functions.md)
+- [Scope, Hoisting, Closure](./functions/scopes.md)
 - [This](./this/this.md)
 - [Event Loop and how Node.js works](./eventloop/eventloop.md)
 - [Callbacks](./callbacks/callbacks.md)

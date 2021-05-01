@@ -1,5 +1,6 @@
 # Read more
 
+* [Types and Values - ECMAScript](https://tc39.es/ecma262/#sec-ecmascript-data-types-and-values)
 * [The typeof Operator - ECMAScript](https://tc39.es/ecma262/#sec-typeof-operator)
 * [BigInt Object - ECMAScript](https://tc39.es/ecma262/#sec-bigint-objects)
 * [Terms and Definitions - ECMAScript](https://tc39.es/ecma262/#sec-terms-and-definitions)

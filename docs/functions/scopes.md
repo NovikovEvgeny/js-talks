@@ -40,8 +40,6 @@
 
 [filename](scopes.js ':include :type=code :fragment=typeError')
 
-ошибки
-
 ## Лексический скоуп
 
 Как не надо
@@ -51,15 +49,29 @@
 
 ## Области видимости и var, let, const
 
-Они, `let` и `const`, видны только в блоке, где были объявлены. Блок - циклы и if.
+Определение:
+* Область видимости переменной, объявленной с помощью `var` - **ФУНКЦИЯ, внутри которой объявленая переменная**
+* Область видимости переменной, объявленной с помощью `let` или `const` - **БЛОК, внутри которой объявлена переменная**
+
+Функция - она всегда функция (function expression, function declaration)
+Блок - любая конструкция с фигурными скобками (curly braces) `{` и `}`
+
+Примеры:
 
 [filename](scopes.js ':include :type=code :fragment=letIf')
 
 И с циклом 
 
+?> Для циклов поведение "особенное" - хоть переменная и не "внутри" блока `for`, но видна она только внутри тела цикла:
+
 [filename](scopes.js ':include :type=code :fragment=letLoop')
 
-Они тоже всплывают(**HOISTNG**), но не так как var, попадая в TDZ(Temporal dead zone).
+
+При этом, `const` использовать всё еще нельзя:
+
+[filename](scopes.js ':include :type=code :fragment=constLoop')
+
+Они тоже всплывают(**HOISTNG**), но не так как var, попадая в TDZ(Temporal dead zone), что приводит к **ошибке**, а не к значению `undefined` у этой переменной (как в случае с `var`)
 
 [filename](scopes.js ':include :type=code :fragment=tdz')
 

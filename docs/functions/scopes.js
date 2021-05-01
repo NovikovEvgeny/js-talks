@@ -32,16 +32,19 @@ outerFunction();
 ///[nested]
 
 ///[cross]
-var hello = 'global';
+// wrapped to IIFE because of RunKit "special" tricks with "this"
+(() => {
+  var hello = 'global';
 
-function test() {
-  var hello = 'test';
-  console.log(hello);
-  console.log(global.hello);
-  console.log(this.hello);
-}
-
-test()
+  function test() {
+    var hello = 'test';
+    console.log(hello);
+    console.log(global.hello);
+    console.log(this.hello);
+  }
+  
+  test();
+})();
 ///[cross]
 
 
@@ -113,16 +116,25 @@ console.log(a);
 
 ///[letLoop]
 let i = 8957;
-for (let i = 0; i < 2; i++) {
+for (let i = 0, b = 10; i < 2; i++) {
   console.log(i);
 }
 console.log(i);
+console.log(b);
 ///[letLoop]
 
+///[constLoop]
+let i = 8957;
+for (const i = 0; i < 2; i++) {
+  console.log(i);
+}
+console.log(i);
+///[constLoop]
 
 ///[tdz]
 let ho = 10;
-function test() {  
+function test() {
+    ho = 5;
     console.log(ho);
     let ho = 10;
 }
