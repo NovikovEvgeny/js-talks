@@ -1,5 +1,4 @@
 - [Datatype](./datatypes.md)
-
 - [typeof](./typeof.md)
 
   **Types:**
@@ -11,5 +10,7 @@
 
   **Mechanisms:**
 - [coercion](./coercion.md)
-
 - [global](./global.md)
+
+_____
+- [Read more](./read_more.md)

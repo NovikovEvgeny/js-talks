@@ -2,6 +2,8 @@
 
 > An Object is logically a collection of properties.
 
+(c) [ECMAScript](https://tc39.es/ecma262/#sec-object-type)
+
 Включая функции, и все built-in нейтивы String, Number, Boolean, Date, RegExp, Error etc
 
 ## Object usage

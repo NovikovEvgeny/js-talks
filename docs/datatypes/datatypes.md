@@ -10,8 +10,9 @@
 * null
 * undefined
 * Symbol (ES6)
+* `BigInt`([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/BigInt))  - добавлен в [ECMAScript 2020](https://tc39.es/ecma262/#sec-bigint-objects), поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0. 
+BigInt (как тип данных) считается **[примитивом](https://tc39.es/ecma262/#sec-primitive-value)**
 
 **Составной тип данных:**
 * object
 
-?> Стоит упомянуть `BigInt`([link](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/BigInt))  - до сих пор не в спецификации ECMAScript, но уже в Stage 3 (предпоследняя) и поддерживается в Chrome, Mozilla, Opera, Node.js > 10.4.0
