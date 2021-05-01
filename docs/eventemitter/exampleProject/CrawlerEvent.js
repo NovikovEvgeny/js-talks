@@ -1,5 +1,5 @@
 const {readdirSync, lstatSync} = require('fs');
-const {resolve, join} = require('path');
+const {join} = require('path');
 const EventEmitter = require('events');
 
 class Crawler extends EventEmitter {
@@ -18,13 +18,9 @@ class Crawler extends EventEmitter {
             if (fileStat.isDirectory()) {
                 this.readDir(filePath);
             } else {
-                this.sendData(filePath)
+                this.emit('fileNameFound', data);
             }
         });
-    }
-
-    sendData(data) {
-        this.emit('data', data);
     }
 }
 

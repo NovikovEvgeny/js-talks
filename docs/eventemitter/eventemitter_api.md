@@ -1,12 +1,11 @@
 # API
-Базовые функции - `.emit(message)` и `.on(event, callback)`.
+Базовые функции - `.emit(eventName, [...args])` и `.on(eventName, callback)`.
 
 [filename](events.js ':include :type=code :fragment=emitter')
 
 Обычно, конечно, `.emit` вызывается изнутри инстанса ИвентЭмиттера, а "снаружи" лишь вешаются ивент лисенеры:
 
 [filename](events.js ':include :type=code :fragment=emitterClass')
-
 
 ## .on
 - Срабатывают в порядке добавления;
@@ -46,7 +45,8 @@
 Убирает один объект из массива `listeners`.
 
 Убирает функцию-лисенер **по ссылке!**
-[filename](events.js ':include :type=code :fragment=remove')
+
+[filename](events.js ':include :type=code :fragment=removeEventListener')
 
 
 ## .emit

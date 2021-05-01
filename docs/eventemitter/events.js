@@ -174,10 +174,11 @@ myEmitter.prependListener('event', () => {
 
 
 myEmitter.emit('event');
-
 ///[prepend]
 
-///[remove]
+// ------
+
+///[removeEventListener]
 const EventEmitter = require('events');
 
 class MyEmitter extends EventEmitter {}
@@ -200,8 +201,10 @@ myEmitter.on('event', callbackB);
 myEmitter.emit('event');
 
 myEmitter.emit('event');
-///[remove]
 
+///[removeEventListener]
+
+// ------
 
 ///[emitBoolean]
 const EventEmitter = require('events');
@@ -221,6 +224,6 @@ myEmitter.on('event1', () => {
 });
 
 myEmitter.doSomething();
-
 ///[emitBoolean]
 
+///

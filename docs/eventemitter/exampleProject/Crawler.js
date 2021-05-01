@@ -18,10 +18,6 @@ class Crawler {
 
         return fileArr;
     }
-
-    sendData(data) {
-        console.log(data);
-    }
 }
 
 module.exports = Crawler;
