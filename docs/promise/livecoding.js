@@ -11,6 +11,7 @@ const request = function (url) {
 
             if (statusCode !== 200) {
                 reject('not 200');
+                return;
             }
 
             let rawData = '';
