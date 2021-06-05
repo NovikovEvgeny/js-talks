@@ -10,7 +10,8 @@ let myLittleFoo = new Foo;
 myBigFoo.bar = 'bar';
 
 console.log(myBigFoo.bar, myLittleFoo.bar);
-
+///[newfoo]
+// ----
 ///[incapsulation-bad]
 function Bus(stopsArray) {
     this.stops = stopsArray;
@@ -31,6 +32,8 @@ myBus.currentStop = 'Балтийский вокзал';
 console.log(myBus.currentStop);
 myBus.drive();
 console.log(myBus.currentStop);
+///[incapsulation-bad]
+// ----
 ///[incapsulation-attempt]
 function Bus(stopsArray) {
     this.stops = stopsArray;
@@ -54,6 +57,8 @@ console.log(myBus.getCurrentStop());
 //no validation logic here!
 myBus.currentStop = 'Балтийский вокзал';
 console.log(myBus.getCurrentStop());
+///[incapsulation-attempt]
+// ----
 ///[incapsulation-solution]
 function Bus(stopsArray) {
     const stops = stopsArray;
@@ -83,3 +88,5 @@ console.log(myBus.getCurrentStop());
 //this will not change our internal variable!
 myBus.currentStop = 'Балтийский вокзал';
 console.log(myBus.getCurrentStop());
+///[incapsulation-solution]
+// ---

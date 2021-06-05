@@ -10,6 +10,8 @@ Account.prototype = {
 */
 const github = new Account('NovikovEvgeny', 'hunter2');
 console.log(github.valueOf()); //{Account { login: 'NovikovEvgeny', password: 'hunter2' }}
+///[simple-example]
+// ---
 ///[prototype-modification]
 function Car(){
 }
@@ -29,14 +31,16 @@ console.log(car.__proto__.__proto__ === Object.prototype); //true
 console.log(car.__proto__.__proto__.__proto__); //null
 
 console.log(Car.prototype.constructor === Car); //true
-
+///[prototype-modification]
+// ---
 ///[empty-object]
 const data = Object.create(null);
 
 console.log(data.__proto__); //undefined - no prototype
 
 console.log(data.valueOf); //undefined
-
+///[empty-object]
+// ---
 ///[inheritance]
 function Animal(){
     this.wantsFood = true;
@@ -53,6 +57,8 @@ Cat.prototype.constructor = Cat;
 const kitty = new Cat();
 console.log(kitty instanceof Animal); //true
 console.log(kitty.wantsFood); //true
+///[inheritance]
+// ---
 ///[abstraction]
 function Animal(){
     if(this.constructor === Animal) throw new Error('Trying to instantiate abstract class!');
@@ -86,6 +92,8 @@ Dog.prototype.speak = function(){
 
 const max = new Dog();
 max.speak();
+///[abstraction]
+// ---
 ///[polymorphism]
 function Animal(){
 }
@@ -121,6 +129,8 @@ for(const pet of myPets) {
         pet.speak();
     }
 }
+///[polymorphism]
+// ---
 ///[util-inherits]
 exports.inherits = function(ctor, superCtor) {
   ctor.super_ = superCtor;
@@ -134,6 +144,8 @@ exports.inherits = function(ctor, superCtor) {
   });
 };
 
+///[util-inherits]
+// ---
 ///[util-inherits-use]
 const util = require('util');
 function Person(){
@@ -152,3 +164,5 @@ function Employee() {
 util.inherits(Employee, Person);
 const engineer = new Employee();
 engineer.sayHi();
+///[util-inherits-use]
+// ---

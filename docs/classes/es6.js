@@ -1,4 +1,4 @@
-///[abstraction] 
+///[abstraction]
 class Abstract {
   constructor() {
     if (new.target === Abstract) {
@@ -15,6 +15,8 @@ class Derived extends Abstract {
 
 //const a = new Abstract();
 const b = new Derived();
+///[abstraction]
+// ---
 ///[inheritance]
 class ClassA {
     constructor() {
@@ -53,6 +55,8 @@ class ClassC extends ClassB {
 }
 const c = new ClassC();
 console.log(c.methodC());
+///[inheritance]
+// ---
 ///[polymorphism]
 class Shape {
     area() {
@@ -111,6 +115,8 @@ function cumulateShapes(shapes) {
 const shapes = [new Circle(3), new Rectangle(2, 3), new Triangle(3, 4), new Circle(2)];
 
 console.log(cumulateShapes(shapes));
+///[polymorphism]
+// ---
 ///[encapsulation]
 class Car {
     constructor(speedLimit = 100) {
@@ -129,3 +135,5 @@ const tesla = new Car();
 
 tesla.drive(120);
 console.log(tesla.toString());
+///[encapsulation]
+// ---
