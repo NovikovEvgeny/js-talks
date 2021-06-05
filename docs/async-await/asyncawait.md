@@ -69,7 +69,3 @@
 Такое значение будет обернуто в `Promise.resolve`
 
 [filename](asyncawait.js ':include :type=code :fragment=awaitNonPromise')
-
-## Links
-
-1. [learn.javascript.ru - async/await](https://learn.javascript.ru/async-await)
