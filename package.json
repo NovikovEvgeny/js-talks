@@ -1,0 +1,30 @@
+{
+  "name": "js-talks",
+  "version": "1.0.0",
+  "description": "Set of JS notes",
+  "main": "",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "new-lesson": "node new-lesson.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NovikovEvgeny/js-talks.git"
+  },
+  "keywords": [
+    "js",
+    "js-talks",
+    "ydkjs",
+    "lessons",
+    "notes"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NovikovEvgeny/js-talks/issues"
+  },
+  "homepage": "https://novikovevgeny.github.io/js-talks/#/"
+}
