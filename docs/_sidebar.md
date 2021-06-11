@@ -10,8 +10,9 @@
 - [Async/Await](async-await/asyncawait.md)
 - [EventEmitter](eventemitter/eventemitter.md)
 - [Streams and Buffers](streams/intro.md)
-- [Child processes](childprocess/childprocess.md)
+- [multithreading](multithreading/multithreading.md)
 - [node module system & ecma module system](./node-modules/node_modules.md)
 - [npm](./npm/npm.md)
 - ___
 - [Homework](homework/)
+

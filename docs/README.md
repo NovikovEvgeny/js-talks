@@ -14,6 +14,7 @@
 - [Async/Await](./async-await/asyncawait.md)
 - [Event emitter](./eventemitter/eventemitter.md)
 - [Streams and Buffers](streams/intro.md)
+- [multithreading](multithreading/multithreading.md)
 - [node module system & ecma module system](./node-modules/node_modules.md)
 - [npm](./npm/npm.md)
 --
@@ -22,3 +23,4 @@
 - testing
 
 ... tbd
+

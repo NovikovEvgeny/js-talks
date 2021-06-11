@@ -1,3 +1,0 @@
-- [Child process](./childprocess.md)
-- [What and why](./childprocess_why.md)
-- [Example](./childprocess_why.md)
