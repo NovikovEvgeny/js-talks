@@ -1,6 +1,6 @@
 const longComputation = () => {
     let sum = 0;
-    for (let i = 0; i < 1e20; i++) {
+    for (let i = 0; i < 1e10; i++) {
         sum += i;
     }
     return sum;
